@@ -12,3 +12,4 @@ public class Simon {
     
 }
     //Updaterar klassen Simon
+    //Igen då...
