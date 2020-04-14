@@ -9,16 +9,25 @@
  * @author Sebbe
  */
 import  javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import  javax.swing.JTextField;
 
 public class Validate {
 
 public static boolean inteTomt(JTextField textField){
 if (textField.getText().isEmpty()){
-    JOptionPane.showMessageDialog(null, "Textfältet " + textField.getToolTipText() + " är tomt!", "Tomt fält", 1);
+    JOptionPane.showMessageDialog(null, "Textfältet " +  " är tomt!", "Tomt fält", 1);
     return false;
 } else {
     return true;
 }
+}
+
+public static boolean inloggKontroll(JTextField txtAnvandarnamn, JPasswordField txtLosenord){
+if (txtAnvandarnamn.getText().isEmpty()|| txtLosenord.getText().isEmpty()){
+JOptionPane.showMessageDialog(null, "Textfältet " +  " är tomt!", "Tomt fält", 1);
+return false;}
+else {
+return true;}
 }
 }
