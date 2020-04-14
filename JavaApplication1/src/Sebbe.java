@@ -1,4 +1,7 @@
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 
 /*
@@ -12,6 +15,8 @@ import javax.swing.JOptionPane;
  * @author Sebbe
  */
 public class Sebbe extends javax.swing.JFrame {
+    Connection con = null;  
+    PreparedStatement pst = null;
 
     /**
      * Creates new form Sebbe
@@ -42,6 +47,12 @@ public class Sebbe extends javax.swing.JFrame {
 
         lblSkapaKategori.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblSkapaKategori.setText("Lägg till kategori");
+
+        txtKategorinamn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtKategorinamnActionPerformed(evt);
+            }
+        });
 
         btnLaggTillKategori.setText("Lägg till kategori");
         btnLaggTillKategori.addActionListener(new java.awt.event.ActionListener() {
@@ -129,7 +140,11 @@ public class Sebbe extends javax.swing.JFrame {
         String nyKategori = "";
         try{
             nyKategori = txtKategorinamn.getText();
-//            idb.insert("INSERT INTO KATEGORI VALUES("+ nyKategori + ")");
+            String query = "INSERT INTO `kategorier`(`kategori`) VALUES (?)";
+            con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+            pst=con.prepareStatement(query);
+            pst.setString(1, txtKategorinamn.getText());
+            pst.executeUpdate();
             lblBekraftelse.setText("Kategori " + nyKategori + " är nu registrerad");
             lblBekraftelse.setVisible(true);
         }
@@ -141,6 +156,10 @@ public class Sebbe extends javax.swing.JFrame {
     lblFel.setVisible(true);
     }
     }//GEN-LAST:event_btnLaggTillKategoriActionPerformed
+
+    private void txtKategorinamnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKategorinamnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtKategorinamnActionPerformed
     
     public void döljMeddelande(){
     lblBekraftelse.setVisible(false);
