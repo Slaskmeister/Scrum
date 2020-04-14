@@ -25,7 +25,7 @@ if (textField.getText().isEmpty()){
 
 public static boolean inloggKontroll(JTextField txtAnvandarnamn, JPasswordField txtLosenord){
 if (txtAnvandarnamn.getText().isEmpty()|| txtLosenord.getText().isEmpty()){
-JOptionPane.showMessageDialog(null, "Textfältet " +  " är tomt!", "Tomt fält", 1);
+JOptionPane.showMessageDialog(null, "Vänligen fyll i alla fält", "Tomt fält", 1);
 return false;}
 else {
 return true;}
