@@ -35,17 +35,17 @@ public class bloggForum extends javax.swing.JFrame {
      {          
 
        con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
-       String sql = "Select * from inlagg";
+       String sql = "Select * from post";
        PreparedStatement pstmt = con.prepareStatement(sql);
        ResultSet rs = pstmt.executeQuery();
 
-            while (rs.next()); 
+            while (rs.next())
             {
 
-            String anvandare  = rs.getString("Användare");
-            String inlaggText = rs.getString("Text");
+            String anvandare  = rs.getString("anvandare");
+            String inlaggText = rs.getString("posttext");
             String tfr = txtForumRuta.getText();
-                if (txtForumRuta ==)
+                if (inlaggText.equals(tfr))
                 {
                     rs.next();
                 }
