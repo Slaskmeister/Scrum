@@ -155,7 +155,7 @@ public class SkapaInlägg extends javax.swing.JFrame {
             }
         });
     }
-    /*jjj*/
+    /*jj*/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPosta;
