@@ -44,8 +44,8 @@ public class bloggForum extends javax.swing.JFrame {
 
             String anvandare  = rs.getString("Användare");
             String inlaggText = rs.getString("Text");
-            String tts = inlaggText.toString();
-                if (txtForumRuta.contains(tts))
+            String tfr = txtForumRuta.getText();
+                if (txtForumRuta ==)
                 {
                     rs.next();
                 }
