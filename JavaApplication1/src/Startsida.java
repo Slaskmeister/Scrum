@@ -31,24 +31,28 @@ public class Startsida extends javax.swing.JFrame {
     public Startsida(String anvandarnamn) {
         initComponents();
         inloggadPerson = anvandarnamn;
-        lblValkommen.setText("Välkommen" + inloggadPerson);
+        lblValkommen.setText("Välkommen" + " " + inloggadPerson);
         con = null;
         pst = null;
         rs = null;
+        pst2 = null;
+        admin = true;
           try {
-            String sqlAdmin = "Select `admin` from `user` where `anamn` = " + anvandarnamn;
+            String sqlAdmin = "Select `anamn`, `admin` from `user` where `anamn`=? and `admin`=?";
             con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
-            pst = con.prepareStatement(sqlAdmin);
-            pst.executeQuery();
-            if (sqlAdmin.equals("JA")) {
-                admin = true;
+            pst2 = con.prepareStatement(sqlAdmin);
+            pst2.setString(1, inloggadPerson);
+            pst2.setString(2, "JA");
+            rs =pst2.executeQuery();
+            if (rs.next()) {
+                rs.getString("admin");
+                this.admin = true;
             } else {
-                admin = false;
+                this.admin = false;
             }
         } catch (Exception e) {
             System.out.println("Intern felmeddelande, Hittar inte Admin-Status: " + e.getMessage());
         }
-        
     }
     
 
@@ -194,10 +198,10 @@ public class Startsida extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFormellActionPerformed
 
     private void btnMinaSidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinaSidorActionPerformed
-//        String anvandare = "";
-//        MinaSidor minsida = new MinaSidor(anvandare);
-//        minsida.setVisible(true);
-//        Startsida.this.dispose();    
+        String anvandare = inloggadPerson;
+        MinaSidor minsida = new MinaSidor(anvandare);
+        minsida.setVisible(true);
+        Startsida.this.dispose();    
     }//GEN-LAST:event_btnMinaSidorActionPerformed
 
     private void btnUtbildningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUtbildningActionPerformed
