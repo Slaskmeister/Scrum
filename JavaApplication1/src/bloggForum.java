@@ -14,36 +14,43 @@ import javax.swing.Timer;
  * @author Axel Rosén
  */
 public class bloggForum extends javax.swing.JFrame {
+    
+    
 
     /**
      * Creates new form bloggForum
      */
-    
-        Connection con = null;
-            PreparedStatement pstmt = null;
-            ResultSet rs = null;
+       public bloggForum() {
+        initComponents();
+       }
+       
+    Connection con = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
     
             
-             public void HamtaInlagg() throws SQLException{
-             try
-             {          
+     public void HamtaInlagg() throws SQLException{
+         
+     try
+     {          
 
-           con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
-           String sql = "Select * from inlagg";
-           PreparedStatement pstmt = con.prepareStatement(sql);
-           ResultSet rs = pstmt.executeQuery();
+       con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+       String sql = "Select * from inlagg";
+       PreparedStatement pstmt = con.prepareStatement(sql);
+       ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()); 
             {
 
             String anvandare  = rs.getString("Användare");
             String inlaggText = rs.getString("Text");
-                if (txtForumRuta.contains(inlaggText))
+            String tts = inlaggText.toString();
+                if (txtForumRuta.contains(tts))
                 {
-                 rs.next();
+                    rs.next();
                 }
                 else{
-                txtForumRuta.setText("    "+anvandare+"    "+inlaggText);
+                    txtForumRuta.setText("    "+anvandare+"    "+inlaggText);
                 }
             }
         con.close();
@@ -53,22 +60,26 @@ public class bloggForum extends javax.swing.JFrame {
             }
              }
              
-             public void runInlaggUpdate() throws SQLException, InterruptedException{
-    ActionListener upd = new ActionListener() {
+    public void runInlaggUpdate() throws SQLException, InterruptedException{
+        ActionListener upd = new ActionListener() {
         @Override
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             throw new UnsupportedOperationException("Not supported yet."); 
         }
-    };
-    Timer update = new Timer(1900, upd);
-    update.start();
-    Thread.sleep(5000);
+            };
+            Timer update = new Timer(1900, upd);
+            update.start();
+            Thread.sleep(5000);
 
-    if (update.isRunning() && txtForumRuta.isVisible());
-    HamtaInlagg();
+            if (update.isRunning() && txtForumRuta.isVisible());
+            HamtaInlagg();
 
+            }
+
+    private void initComponents() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    }
+    
     
 
     /**
@@ -87,7 +98,6 @@ public class bloggForum extends javax.swing.JFrame {
 
         btnTillbaka.setText("Tillbaka");
 
-        txtForumRuta.setText("jTextField1");
         txtForumRuta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtForumRutaActionPerformed(evt);
@@ -98,20 +108,22 @@ public class bloggForum extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(txtForumRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(291, Short.MAX_VALUE)
                 .addComponent(btnTillbaka)
                 .addGap(42, 42, 42))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(txtForumRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(55, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnTillbaka)
-                    .addComponent(txtForumRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(57, 57, 57)
+                .addComponent(txtForumRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addComponent(btnTillbaka)
                 .addGap(62, 62, 62))
         );
 
@@ -119,7 +131,7 @@ public class bloggForum extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtForumRutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtForumRutaActionPerformed
-        
+        // TODO add your handling code here:
     }//GEN-LAST:event_txtForumRutaActionPerformed
 
     /**
