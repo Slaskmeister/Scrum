@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 /**
  *
  * @author ellinor
@@ -28,24 +29,24 @@ public class MinaSidor extends javax.swing.JFrame {
         pst= null;
         rs=null;
         con= null;
+        lblÄndraLösen.setText("Ändra Lösenord för" + " " + inloggadPerson);
     }
 
 
  
-    public void bytLösen(){
-    if(Validate.inteTomt(pwÄndraLösen)){
+    public void bytLösen()  {  if(Validate.inteTomt(pwÄndraLösen)){
         try {
-        con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");   
-        String lösen =  pwÄndraLösen.getText();
-        String sql = "update `ùser` set `losenord`= " + lösen + " where `anamn` = " + inloggadPerson;
-        pst=con.prepareStatement(sql);
-        pst.setString(1,inloggadPerson);
-        pst.setString(2,lösen);
-        
+        String lösen = pwÄndraLösen.getText();
+        String ändraLösen = "UPDATE `user` SET `losenord`=? WHERE `anamn`=?";
+        con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+        pst=con.prepareStatement(ändraLösen);
+        pst.setString(1, lösen);
+        pst.setString(2, inloggadPerson);
+        pst.executeUpdate();
         lblBekräftelse.setText("Lösenordet har uppdaterats till" + " " + pwÄndraLösen.getText());
         lblBekräftelse.setVisible(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(MinaSidor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.out.println("Intern felmeddelande, Hittar inte Admin-Status: " + e.getMessage());
         }
     }
     }
