@@ -35,7 +35,7 @@ public class Sebbe extends javax.swing.JFrame {
     
         try
         {
-            con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+           con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
            String sql = "select kategori from kategorier";
            PreparedStatement pstmt = con.prepareStatement(sql);
            ResultSet rs = pstmt.executeQuery();
@@ -46,18 +46,9 @@ public class Sebbe extends javax.swing.JFrame {
        catch (Exception ex){
        
        }
+   }
+  
     
-    
-    
-    
-    
-    
-    
-    
-    
-    }
-    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -79,7 +70,7 @@ public class Sebbe extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        lblSkapaKategori.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblSkapaKategori.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblSkapaKategori.setText("Lägg till kategori");
 
         txtKategorinamn.addActionListener(new java.awt.event.ActionListener() {
@@ -95,6 +86,7 @@ public class Sebbe extends javax.swing.JFrame {
             }
         });
 
+        lblKategorinamn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblKategorinamn.setText("Kategorinamn:");
 
         lblBekraftelse.setForeground(new java.awt.Color(0, 204, 0));
@@ -110,24 +102,22 @@ public class Sebbe extends javax.swing.JFrame {
             .addGroup(pnlSkapaKategoriLayout.createSequentialGroup()
                 .addGroup(pnlSkapaKategoriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlSkapaKategoriLayout.createSequentialGroup()
-                        .addGroup(pnlSkapaKategoriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlSkapaKategoriLayout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addComponent(lblSkapaKategori))
-                            .addGroup(pnlSkapaKategoriLayout.createSequentialGroup()
-                                .addGap(39, 39, 39)
-                                .addGroup(pnlSkapaKategoriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnLaggTillKategori)
-                                    .addComponent(txtKategorinamn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(pnlSkapaKategoriLayout.createSequentialGroup()
+                        .addGroup(pnlSkapaKategoriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlSkapaKategoriLayout.createSequentialGroup()
                                 .addGap(60, 60, 60)
-                                .addComponent(lblKategorinamn)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(lblKategorinamn))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlSkapaKategoriLayout.createSequentialGroup()
+                                .addGap(50, 50, 50)
+                                .addGroup(pnlSkapaKategoriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtKategorinamn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblSkapaKategori)
+                                    .addComponent(btnLaggTillKategori))))
+                        .addGap(0, 61, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlSkapaKategoriLayout.createSequentialGroup()
-                        .addGap(0, 18, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(pnlSkapaKategoriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblBekraftelse, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblFel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(lblBekraftelse, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblFel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         pnlSkapaKategoriLayout.setVerticalGroup(
@@ -145,7 +135,7 @@ public class Sebbe extends javax.swing.JFrame {
                 .addComponent(lblBekraftelse, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblFel)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         t1.setModel(new javax.swing.table.DefaultTableModel(
@@ -171,19 +161,19 @@ public class Sebbe extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(92, 92, 92)
+                .addGap(52, 52, 52)
                 .addComponent(pnlSkapaKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(31, 31, 31)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlSkapaKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                    .addComponent(pnlSkapaKategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(168, Short.MAX_VALUE))
         );
 
@@ -203,6 +193,7 @@ public class Sebbe extends javax.swing.JFrame {
             pstmt.executeUpdate();
             lblBekraftelse.setText("Kategori " + nyKategori + " är nu registrerad");
             lblBekraftelse.setVisible(true);
+            DisplayTable();
             
         }
     catch (Exception ex){
