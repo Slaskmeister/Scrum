@@ -4,8 +4,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 
@@ -25,7 +23,8 @@ public class Startsida extends javax.swing.JFrame {
     private boolean admin;
     private Connection con;
     private PreparedStatement pst;
-    private PreparedStatement st;
+    private PreparedStatement pst2;
+    private ResultSet rs;
     /**
      * Creates new form Startsida
      */
@@ -35,29 +34,33 @@ public class Startsida extends javax.swing.JFrame {
         lblValkommen.setText("Välkommen" + inloggadPerson);
         con = null;
         pst = null;
-        st = null;
-//          try {
-//            String sqlAdmin = "Select ADMINISTRATOR from PERSONAL where ANVANDARNAMN = " + anvandarnamn;
-////            String adminSvar = idb.fetchSingle(sqlAdmin);
-//            if (adminSvar.equals("JA")) {
-//                admin = true;
-//            } else {
-//                admin = false;
-//            }
-//        } catch (Exception e) {
-//            System.out.println("Intern felmeddelande, Hittar inte Admin-Status: " + e.getMessage());
-//        }
+        rs = null;
+          try {
+            String sqlAdmin = "Select `admin` from `user` where `anamn` = " + anvandarnamn;
+            con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+            pst = con.prepareStatement(sqlAdmin);
+            pst.executeQuery();
+            if (sqlAdmin.equals("JA")) {
+                admin = true;
+            } else {
+                admin = false;
+            }
+        } catch (Exception e) {
+            System.out.println("Intern felmeddelande, Hittar inte Admin-Status: " + e.getMessage());
+        }
+        
     }
     
 
 
   public boolean inLoggning(String anvandarnamn, String losenord) throws SQLException {
+        String sql = "Select * from `user` where `anamn`=? and `losenord`=?";
         con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
-        String sqlAnamn = "Select `anamn` from `user`";
-        String sqlLosen ="Select `losenord` from `user`";
-        pst = con.prepareStatement(sqlAnamn);
-        st = con.prepareStatement(sqlLosen);
-        if(anvandarnamn.equals(pst.toString()) && losenord.equals(st.toString())){
+        pst = con.prepareStatement(sql);
+        pst.setString(1, anvandarnamn);
+        pst.setString(2, losenord);
+        rs= pst.executeQuery();
+        if(rs.next()){
         return true;
         }
         else{
@@ -90,6 +93,11 @@ public class Startsida extends javax.swing.JFrame {
 
         btnInformell.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnInformell.setText("Informella bloggen");
+        btnInformell.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInformellActionPerformed(evt);
+            }
+        });
 
         btnFormell.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnFormell.setText("Formella bloggen");
@@ -186,10 +194,10 @@ public class Startsida extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFormellActionPerformed
 
     private void btnMinaSidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinaSidorActionPerformed
-        String anvandare = "";
-        MinaSidor minsida = new MinaSidor(anvandare);
-        minsida.setVisible(true);
-        Startsida.this.dispose();    
+//        String anvandare = "";
+//        MinaSidor minsida = new MinaSidor(anvandare);
+//        minsida.setVisible(true);
+//        Startsida.this.dispose();    
     }//GEN-LAST:event_btnMinaSidorActionPerformed
 
     private void btnUtbildningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUtbildningActionPerformed
@@ -203,6 +211,10 @@ public class Startsida extends javax.swing.JFrame {
     private void btnUtbildning1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUtbildning1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnUtbildning1ActionPerformed
+
+    private void btnInformellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformellActionPerformed
+
+    }//GEN-LAST:event_btnInformellActionPerformed
 
     /**
      * @param args the command line arguments
