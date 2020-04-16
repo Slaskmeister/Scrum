@@ -34,7 +34,8 @@ public class MinaSidor extends javax.swing.JFrame {
 
 
  
-    public void bytLösen()  {  if(Validate.inteTomt(pwÄndraLösen)){
+    public void bytLösen()  {  
+        if(Validate.inteTomt(pwÄndraLösen)){
         try {
         String lösen = pwÄndraLösen.getText();
         String ändraLösen = "UPDATE `user` SET `losenord`=? WHERE `anamn`=?";
@@ -160,7 +161,7 @@ public class MinaSidor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnÄndraLösenActionPerformed
 
     private void btnStartsidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartsidaActionPerformed
-                   String anvandarnamn = "";
+                   String anvandarnamn = inloggadPerson;
                    Startsida start = new Startsida(anvandarnamn);
                    start.setVisible(true);
                    MinaSidor.this.dispose();
