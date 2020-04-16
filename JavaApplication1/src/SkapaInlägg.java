@@ -108,8 +108,8 @@ public class SkapaInlägg extends javax.swing.JFrame {
             pst=connec.prepareStatement(query);
             pst.setString(1, txtInlagg.getText());
             pst.executeUpdate();
-            lblok.setText("Inlägget har postast ");
-            lblok.setVisible(true);
+            //lblok.setText("Inlägget har postast ");
+            //lblok.setVisible(true);
             
             
         }
