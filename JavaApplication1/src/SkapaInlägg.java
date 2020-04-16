@@ -103,7 +103,7 @@ public class SkapaInlägg extends javax.swing.JFrame {
         String nyttInlagg = "";
         try{
             nyttInlagg = txtInlagg.getText();
-            String query = "INSERT INTO `Inlagg`(`Inlagg`) VALUES (?)";
+            String query = "INSERT INTO `post`(`posttext`) VALUES (?)";
             connec = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
             pst=connec.prepareStatement(query);
             pst.setString(1, txtInlagg.getText());
