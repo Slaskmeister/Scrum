@@ -13,7 +13,7 @@ import javax.swing.Timer;
 
 /**
  *
- * @author Axel Rosén
+ * @author Simon Berg
  */
 public class bloggForum extends javax.swing.JFrame {
     
@@ -33,35 +33,45 @@ public class bloggForum extends javax.swing.JFrame {
     
             
      public void HamtaInlagg() throws SQLException{
-         
      try
      {          
-
+       String sql = "Select * from `post`";
        con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
-       String sql = "SELECT * FROM `post`";
-       PreparedStatement pstmt = con.prepareStatement(sql);
-       ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next())
-            {
-
-            //String anvandare  = rs.getString("anvandare");
-            String inlaggText = rs.getString("posttext");
-            String tfr = txtForumRuta.getText();
-                if (inlaggText.equals(tfr))
-                {
-                    rs.next();
-                }
-                else{
-                    txtForumRuta.setText("    "+inlaggText);
-                }
+       pstmt = con.prepareStatement(sql);
+       rs =pstmt.executeQuery();  
+       boolean next = false;
+       txtBacklog.setVisible(false);
+            while (rs.next()){
+                next = true;
+                    txtForumRuta.setText(rs.getString("posttext"));
+                    String skrivText = txtForumRuta.getText();
+                    String logg = txtBacklog.getText();
+                    if (logg.isEmpty()){
+                    txtBacklog.setText(rs.getString("posttext"));        
+                    }
+                    else 
+                    {
+                    String nyrad = System.lineSeparator();
+                    String sparadText = logg+ nyrad +skrivText;
+                    txtBacklog.setText(sparadText);
+                    txtForumRuta.setText(sparadText);
+    
+                
             }
-        con.close();
+            if(!next){
+            JOptionPane.showMessageDialog(null, "Loop avslutad");
+            
+            }
+    
         }
+            con.close();
+    }
+            
+        
         catch (Exception ex){
             JOptionPane.showMessageDialog(null, "Något gick fel, kontrollera uppkoppling till db");
             }
-             }
+ }   
              
     public void runInlaggUpdate() throws SQLException, InterruptedException{
         ActionListener upd = new ActionListener() {
@@ -70,13 +80,14 @@ public class bloggForum extends javax.swing.JFrame {
             throw new UnsupportedOperationException("Not supported yet."); 
         }
             };
-            Timer update = new Timer(1900, upd);
+            Timer update = new Timer(1000, upd);
             update.start();
-            Thread.sleep(5000);
+            Thread.sleep(2000);
 
             while (update.isRunning() && txtForumRuta.isVisible());
             {
-            HamtaInlagg();
+            //HamtaInlagg();
+            JOptionPane.showMessageDialog(null, "Timer Fungerar");
             }
             if (!txtForumRuta.isVisible());
             update.stop();
@@ -98,6 +109,7 @@ public class bloggForum extends javax.swing.JFrame {
         btnTillbaka = new javax.swing.JButton();
         txtForumRuta = new javax.swing.JTextField();
         btnTest = new javax.swing.JToggleButton();
+        txtBacklog = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -108,6 +120,7 @@ public class bloggForum extends javax.swing.JFrame {
             }
         });
 
+        txtForumRuta.setColumns(6);
         txtForumRuta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtForumRutaActionPerformed(evt);
@@ -134,13 +147,20 @@ public class bloggForum extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addComponent(txtForumRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtBacklog, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(94, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addComponent(txtForumRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(57, 57, 57)
+                        .addComponent(txtForumRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(65, 65, 65)
+                        .addComponent(txtBacklog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnTillbaka)
@@ -161,12 +181,9 @@ public class bloggForum extends javax.swing.JFrame {
 
     private void btnTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestActionPerformed
            try {
-               runInlaggUpdate();
+               HamtaInlagg();
            } catch (SQLException ex) {
                Logger.getLogger(bloggForum.class.getName()).log(Level.SEVERE, null, ex);
-           } catch (InterruptedException ex) {
-               Logger.getLogger(bloggForum.class.getName()).log(Level.SEVERE, null, ex);
-       
            }
     }//GEN-LAST:event_btnTestActionPerformed
 
@@ -208,6 +225,7 @@ public class bloggForum extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnTest;
     private javax.swing.JButton btnTillbaka;
+    private javax.swing.JTextField txtBacklog;
     private javax.swing.JTextField txtForumRuta;
     // End of variables declaration//GEN-END:variables
 }
