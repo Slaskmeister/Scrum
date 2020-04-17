@@ -69,7 +69,7 @@ public class Startsida extends javax.swing.JFrame {
         }
         else{
         return false;
-        }
+        } 
     }
 
     /**
