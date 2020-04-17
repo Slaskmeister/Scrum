@@ -350,7 +350,10 @@ public class Startsida extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFormellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFormellActionPerformed
-        // TODO add your handling code here:
+        String anvandare = inloggadPerson;
+        formellForum forum = new formellForum(anvandare);
+        forum.setVisible(true);
+        Startsida.this.dispose(); 
     }//GEN-LAST:event_btnFormellActionPerformed
 
     private void btnMinaSidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinaSidorActionPerformed
