@@ -40,7 +40,7 @@
                           <Component id="btnSkapaMöte" pref="186" max="32767" attributes="0"/>
                           <Component id="btnKalender" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="94" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>

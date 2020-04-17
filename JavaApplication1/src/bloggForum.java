@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Timer;
+import java.lang.String;
 
 /**
  *
@@ -22,14 +23,16 @@ public class bloggForum extends javax.swing.JFrame {
     /**
      * Creates new form bloggForum
      */
-       public bloggForum() {
+       public bloggForum() throws SQLException {
         initComponents();
+        HamtaInlagg();
        }
        
     Connection con = null;
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     Timer update;
+    String anvandare;
     
             
      public void HamtaInlagg() throws SQLException{
@@ -52,7 +55,7 @@ public class bloggForum extends javax.swing.JFrame {
                     else 
                     {
                     String nyrad = System.lineSeparator();
-                    String sparadText = logg+ nyrad +skrivText;
+                    String sparadText = logg + nyrad +skrivText;
                     txtBacklog.setText(sparadText);
                     txtForumRuta.setText(sparadText);
     
@@ -92,11 +95,6 @@ public class bloggForum extends javax.swing.JFrame {
             if (!txtForumRuta.isVisible());
             update.stop();
     }
-            
-          
-
-            
- 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -113,7 +111,7 @@ public class bloggForum extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnTillbaka.setText("Tillbaka");
+        btnTillbaka.setText("Tillbaka till startsidan");
         btnTillbaka.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTillbakaActionPerformed(evt);
@@ -127,7 +125,7 @@ public class bloggForum extends javax.swing.JFrame {
             }
         });
 
-        btnTest.setText("Testa Metod");
+        btnTest.setText("Skriv nytt inlagg");
         btnTest.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTestActionPerformed(evt);
@@ -140,32 +138,31 @@ public class bloggForum extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(45, 45, 45)
-                .addComponent(btnTest)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnTillbaka)
-                .addGap(42, 42, 42))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(txtForumRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnTest)
+                        .addGap(194, 194, 194))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtForumRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTillbaka))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(txtBacklog, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(65, 65, 65)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addComponent(txtForumRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
-                        .addComponent(txtBacklog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTillbaka)
-                    .addComponent(btnTest))
-                .addGap(62, 62, 62))
+                    .addComponent(txtBacklog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtForumRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btnTest)
+                .addGap(18, 18, 18)
+                .addComponent(btnTillbaka)
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         pack();
@@ -176,15 +173,13 @@ public class bloggForum extends javax.swing.JFrame {
     }//GEN-LAST:event_txtForumRutaActionPerformed
 
     private void btnTillbakaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTillbakaActionPerformed
-    txtForumRuta.setVisible(false);        // TODO add your handling code here:
+              this.dispose();
     }//GEN-LAST:event_btnTillbakaActionPerformed
 
     private void btnTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestActionPerformed
-           try {
-               HamtaInlagg();
-           } catch (SQLException ex) {
-               Logger.getLogger(bloggForum.class.getName()).log(Level.SEVERE, null, ex);
-           }
+            SkapaInlägg inlagg = new SkapaInlägg();
+            inlagg.setVisible(true);
+            this.dispose();
     }//GEN-LAST:event_btnTestActionPerformed
 
     /**
@@ -217,7 +212,11 @@ public class bloggForum extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new bloggForum().setVisible(true);
+                try {
+                    new bloggForum().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(bloggForum.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -228,5 +227,5 @@ public class bloggForum extends javax.swing.JFrame {
     private javax.swing.JTextField txtBacklog;
     private javax.swing.JTextField txtForumRuta;
     // End of variables declaration//GEN-END:variables
-}
+}   
         

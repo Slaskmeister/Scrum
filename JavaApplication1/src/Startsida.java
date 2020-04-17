@@ -62,9 +62,9 @@ public class Startsida extends javax.swing.JFrame {
           pnlAdmin.setVisible(false);
           lblBekräftelse.setVisible(false);
     }
+
+
     
-
-
   public boolean inLoggning(String anvandarnamn, String losenord) throws SQLException {
         String sql = "Select * from `user` where `anamn`=? and `losenord`=?";
         con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
@@ -373,7 +373,12 @@ public class Startsida extends javax.swing.JFrame {
     }//GEN-LAST:event_btnKalenderActionPerformed
 
     private void btnInformellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformellActionPerformed
-        bloggForum formell = new bloggForum();
+        bloggForum formell = null;
+        try {
+            formell = new bloggForum();
+        } catch (SQLException ex) {
+            Logger.getLogger(Startsida.class.getName()).log(Level.SEVERE, null, ex);
+        }
         formell.setVisible(true);
     }//GEN-LAST:event_btnInformellActionPerformed
 
