@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Timer;
 import java.lang.String;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -42,32 +43,7 @@ public class bloggForum extends javax.swing.JFrame {
        con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
        pstmt = con.prepareStatement(sql);
        rs =pstmt.executeQuery();  
-       boolean next = false;
-       txtBacklog.setVisible(false);
-            while (rs.next()){
-                next = true;
-                    txtForumRuta.setText(rs.getString("posttext"));
-                    String skrivText = txtForumRuta.getText();
-                    String logg = txtBacklog.getText();
-                    if (logg.isEmpty()){
-                    txtBacklog.setText(rs.getString("posttext"));        
-                    }
-                    else 
-                    {
-                    String nyrad = System.lineSeparator();
-                    String sparadText = logg + nyrad +skrivText;
-                    txtBacklog.setText(sparadText);
-                    txtForumRuta.setText(sparadText);
-    
-                
-            }
-            if(!next){
-            JOptionPane.showMessageDialog(null, "Loop avslutad");
-            
-            }
-    
-        }
-            con.close();
+       tblInlägg.setModel(DbUtils.resultSetToTableModel(rs));
     }
             
         
@@ -87,12 +63,12 @@ public class bloggForum extends javax.swing.JFrame {
             update.start();
             Thread.sleep(2000);
 
-            while (update.isRunning() && txtForumRuta.isVisible());
+            while (update.isRunning() && tblInlägg.isVisible());
             {
             //HamtaInlagg();
             JOptionPane.showMessageDialog(null, "Timer Fungerar");
             }
-            if (!txtForumRuta.isVisible());
+            if (!tblInlägg.isVisible());
             update.stop();
     }
     /**
@@ -105,9 +81,9 @@ public class bloggForum extends javax.swing.JFrame {
     private void initComponents() {
 
         btnTillbaka = new javax.swing.JButton();
-        txtForumRuta = new javax.swing.JTextField();
         btnTest = new javax.swing.JToggleButton();
-        txtBacklog = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblInlägg = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -118,19 +94,30 @@ public class bloggForum extends javax.swing.JFrame {
             }
         });
 
-        txtForumRuta.setColumns(6);
-        txtForumRuta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtForumRutaActionPerformed(evt);
-            }
-        });
-
         btnTest.setText("Skriv nytt inlagg");
         btnTest.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTestActionPerformed(evt);
             }
         });
+
+        tblInlägg.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Alla inlägg"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblInlägg);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -139,38 +126,28 @@ public class bloggForum extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnTest)
-                        .addGap(194, 194, 194))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtForumRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnTillbaka))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(txtBacklog, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTest)
+                    .addComponent(btnTillbaka))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(65, 65, 65)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtBacklog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtForumRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
                 .addComponent(btnTest)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnTillbaka)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addGap(25, 25, 25))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtForumRutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtForumRutaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtForumRutaActionPerformed
 
     private void btnTillbakaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTillbakaActionPerformed
               this.dispose();
@@ -224,8 +201,8 @@ public class bloggForum extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnTest;
     private javax.swing.JButton btnTillbaka;
-    private javax.swing.JTextField txtBacklog;
-    private javax.swing.JTextField txtForumRuta;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblInlägg;
     // End of variables declaration//GEN-END:variables
 }   
         
