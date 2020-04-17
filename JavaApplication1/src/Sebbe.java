@@ -25,7 +25,7 @@ public class Sebbe extends javax.swing.JFrame {
     /**
      * Creates new form Sebbe
      */
-    public Sebbe() {
+    public Sebbe(String anvandarnamn) {
         initComponents();
         döljMeddelande();
         DisplayTable();
@@ -243,7 +243,8 @@ public class Sebbe extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Sebbe().setVisible(true);
+                String anvandarnamn = "";
+                new Sebbe(anvandarnamn).setVisible(true);
             }
         });
     }
