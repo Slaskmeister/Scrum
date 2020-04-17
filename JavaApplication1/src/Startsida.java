@@ -4,6 +4,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 
@@ -53,6 +55,12 @@ public class Startsida extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Intern felmeddelande, Hittar inte Admin-Status: " + e.getMessage());
         }
+          if(admin = false){
+          btnAdmin.setVisible(false);
+          }
+          fyllComboBox();
+          pnlAdmin.setVisible(false);
+          lblBekräftelse.setVisible(false);
     }
     
 
@@ -71,7 +79,70 @@ public class Startsida extends javax.swing.JFrame {
         return false;
         } 
     }
+  
+  public void fyllComboBox() {
+      cbPerson.removeAllItems();
+      cbPerson.addItem("Välj");
+    String sql = "Select `fnamn` from `user` where `admin`=?";
+        try {
+          con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+          pst = con.prepareStatement(sql);
+          pst.setString(1, "NEJ");
+          rs= pst.executeQuery();
+          while(rs.next()){
+          cbPerson.addItem(rs.getString(1));
+          }
+        } catch (SQLException ex) {
+            Logger.getLogger(Startsida.class.getName()).log(Level.SEVERE, null, ex);
+        }
+  
+    }
+  
+  public void gömKnappar(){
+      btnFormell.setVisible(false);
+      btnInformell.setVisible(false);
+      btnForskning.setVisible(false);
+      btnUtbildning.setVisible(false);
+      btnMinaSidor.setVisible(false);
+      btnSkapaMöte.setVisible(false);
+      btnAdmin.setVisible(false);
+      btnKalender.setVisible(false);
+      lblValkommen.setVisible(false);
+  }
+  
+  public void visaKnappar(){
+      btnFormell.setVisible(true);
+      btnInformell.setVisible(true);
+      btnForskning.setVisible(true);
+      btnUtbildning.setVisible(true);
+      btnMinaSidor.setVisible(true);
+      btnSkapaMöte.setVisible(true);
+      btnAdmin.setVisible(true);
+      btnKalender.setVisible(true);  
+     lblValkommen.setVisible(true);
+  }
 
+    public void nyAdmin(){
+    
+        String sql ="update `user` set `admin`=? where `fnamn`=?";
+        String admin = cbPerson.getSelectedItem().toString();
+        String admin1 = "JA";
+        try {
+        con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+        pst=con.prepareStatement(sql);
+        pst.setString(1, admin1);
+        pst.setString(2, admin);
+        pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(Startsida.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     pnlAdmin.setVisible(false);
+     visaKnappar();
+     lblBekräftelse.setText(admin + " " + "har nu adminstatus");
+     lblBekräftelse.setVisible(true);
+     
+    
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -88,7 +159,14 @@ public class Startsida extends javax.swing.JFrame {
         btnUtbildning = new javax.swing.JButton();
         btnForskning = new javax.swing.JButton();
         btnSkapaMöte = new javax.swing.JButton();
-        btnUtbildning1 = new javax.swing.JButton();
+        btnKalender = new javax.swing.JButton();
+        btnAdmin = new javax.swing.JButton();
+        lblBekräftelse = new javax.swing.JLabel();
+        pnlAdmin = new javax.swing.JPanel();
+        cbPerson = new javax.swing.JComboBox<>();
+        lblAdmin = new javax.swing.JLabel();
+        lblVälj = new javax.swing.JLabel();
+        btnGeAdmin = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -137,13 +215,72 @@ public class Startsida extends javax.swing.JFrame {
         btnSkapaMöte.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnSkapaMöte.setText("Skapa nytt möte");
 
-        btnUtbildning1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnUtbildning1.setText("Se kalender");
-        btnUtbildning1.addActionListener(new java.awt.event.ActionListener() {
+        btnKalender.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnKalender.setText("Se kalender");
+        btnKalender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUtbildning1ActionPerformed(evt);
+                btnKalenderActionPerformed(evt);
             }
         });
+
+        btnAdmin.setText("Lägg till ny admin");
+        btnAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdminActionPerformed(evt);
+            }
+        });
+
+        lblBekräftelse.setForeground(new java.awt.Color(0, 204, 0));
+        lblBekräftelse.setText("Bekräftelse");
+
+        cbPerson.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cbPerson.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lblAdmin.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblAdmin.setText("Lägg till ny admin");
+
+        lblVälj.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblVälj.setText("Välj användare:");
+
+        btnGeAdmin.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnGeAdmin.setText("Ge adminstatus");
+        btnGeAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGeAdminActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlAdminLayout = new javax.swing.GroupLayout(pnlAdmin);
+        pnlAdmin.setLayout(pnlAdminLayout);
+        pnlAdminLayout.setHorizontalGroup(
+            pnlAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAdminLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addGroup(pnlAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblAdmin)
+                    .addGroup(pnlAdminLayout.createSequentialGroup()
+                        .addComponent(lblVälj, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbPerson, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(321, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAdminLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnGeAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41))
+        );
+        pnlAdminLayout.setVerticalGroup(
+            pnlAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAdminLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(lblAdmin)
+                .addGap(71, 71, 71)
+                .addGroup(pnlAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblVälj)
+                    .addComponent(cbPerson, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
+                .addComponent(btnGeAdmin)
+                .addGap(48, 48, 48))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -152,21 +289,32 @@ public class Startsida extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addComponent(lblValkommen, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnMinaSidor)
-                .addGap(65, 65, 65))
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnMinaSidor)
+                        .addGap(65, 65, 65))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnUtbildning, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSkapaMöte, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+                            .addComponent(btnKalender, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(94, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(72, 72, 72)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btnFormell, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnForskning, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnInformell, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))
-                .addGap(52, 52, 52)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnUtbildning, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSkapaMöte, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
-                    .addComponent(btnUtbildning1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblBekräftelse, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(btnForskning, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnFormell, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnInformell, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE))))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(pnlAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,20 +322,28 @@ public class Startsida extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblValkommen, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnMinaSidor))
+                    .addComponent(btnMinaSidor)
+                    .addComponent(btnAdmin))
                 .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnInformell, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSkapaMöte, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
+                .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnFormell, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnUtbildning1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
+                    .addComponent(btnKalender, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnForskning, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUtbildning, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addComponent(lblBekräftelse)
+                .addContainerGap(45, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(pnlAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         pack();
@@ -212,13 +368,24 @@ public class Startsida extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnForskningActionPerformed
 
-    private void btnUtbildning1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUtbildning1ActionPerformed
+    private void btnKalenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKalenderActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnUtbildning1ActionPerformed
+    }//GEN-LAST:event_btnKalenderActionPerformed
 
     private void btnInformellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformellActionPerformed
-
+        bloggForum formell = new bloggForum();
+        formell.setVisible(true);
     }//GEN-LAST:event_btnInformellActionPerformed
+
+    private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
+        gömKnappar();
+        lblBekräftelse.setVisible(false);
+        pnlAdmin.setVisible(true);
+    }//GEN-LAST:event_btnAdminActionPerformed
+
+    private void btnGeAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGeAdminActionPerformed
+       nyAdmin();
+    }//GEN-LAST:event_btnGeAdminActionPerformed
 
     /**
      * @param args the command line arguments
@@ -257,13 +424,20 @@ public class Startsida extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdmin;
     private javax.swing.JButton btnFormell;
     private javax.swing.JButton btnForskning;
+    private javax.swing.JButton btnGeAdmin;
     private javax.swing.JButton btnInformell;
+    private javax.swing.JButton btnKalender;
     private javax.swing.JButton btnMinaSidor;
     private javax.swing.JButton btnSkapaMöte;
     private javax.swing.JButton btnUtbildning;
-    private javax.swing.JButton btnUtbildning1;
+    private javax.swing.JComboBox<String> cbPerson;
+    private javax.swing.JLabel lblAdmin;
+    private javax.swing.JLabel lblBekräftelse;
     private javax.swing.JLabel lblValkommen;
+    private javax.swing.JLabel lblVälj;
+    private javax.swing.JPanel pnlAdmin;
     // End of variables declaration//GEN-END:variables
 }
