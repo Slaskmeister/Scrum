@@ -376,13 +376,14 @@ public class Startsida extends javax.swing.JFrame {
     }//GEN-LAST:event_btnKalenderActionPerformed
 
     private void btnInformellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformellActionPerformed
-        bloggForum formell = null;
         try {
-            formell = new bloggForum();
+            String anvandare = inloggadPerson;
+            bloggForum forum = new bloggForum(anvandare);
+            forum.setVisible(true); 
+            Startsida.this.dispose();
         } catch (SQLException ex) {
             Logger.getLogger(Startsida.class.getName()).log(Level.SEVERE, null, ex);
         }
-        formell.setVisible(true);
     }//GEN-LAST:event_btnInformellActionPerformed
 
     private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
