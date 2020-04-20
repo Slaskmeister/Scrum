@@ -32,8 +32,11 @@ public class bloggForum extends javax.swing.JFrame {
     Connection con = null;
     PreparedStatement pstmt = null;
     ResultSet rs = null;
+    Statement st = null;
     Timer update;
     String anvandare;
+    String värde; 
+    private Boolean harVärde;
     
             
      public void HamtaInlagg() throws SQLException{
@@ -71,6 +74,28 @@ public class bloggForum extends javax.swing.JFrame {
             if (!tblInlägg.isVisible());
             update.stop();
     }
+        private void TaBortVärde(){
+            try
+     {          
+       String sqlr = "Delete from `post` where `postid`="+värde;
+       con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+       st = con.prepareStatement(sqlr);
+       st.executeUpdate(sqlr);
+     }
+            catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+            }
+    }
+        public boolean KollaVärde(){
+        harVärde = false;
+        if (värde==null){
+        harVärde=false;
+        }
+                else{
+                harVärde=true;
+                }
+        return harVärde;
+        }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -84,6 +109,7 @@ public class bloggForum extends javax.swing.JFrame {
         btnTest = new javax.swing.JToggleButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblInlägg = new javax.swing.JTable();
+        btnTaBort = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,7 +143,19 @@ public class bloggForum extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblInlägg.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblInläggMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblInlägg);
+
+        btnTaBort.setText("Ta Bort Inlägg");
+        btnTaBort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTaBortActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -126,9 +164,14 @@ public class bloggForum extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnTest)
-                    .addComponent(btnTillbaka))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnTillbaka)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnTest)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnTaBort)
+                        .addGap(90, 90, 90))))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
@@ -140,7 +183,9 @@ public class bloggForum extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
-                .addComponent(btnTest)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnTest)
+                    .addComponent(btnTaBort))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnTillbaka)
                 .addGap(25, 25, 25))
@@ -158,6 +203,29 @@ public class bloggForum extends javax.swing.JFrame {
             inlagg.setVisible(true);
             this.dispose();
     }//GEN-LAST:event_btnTestActionPerformed
+
+    private void tblInläggMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInläggMouseClicked
+        värde=null;
+        int kolumn = 0;
+        int rad = tblInlägg.getSelectedRow();                                   //Visar markrad rad i tabellen
+        värde = tblInlägg.getModel().getValueAt(rad, kolumn).toString();        //Sätter värdet av raden till en variabel
+        //JOptionPane.showMessageDialog(null, värde);      
+    }//GEN-LAST:event_tblInläggMouseClicked
+
+    private void btnTaBortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortActionPerformed
+        KollaVärde();
+        if(harVärde = true){
+                TaBortVärde();
+            try {
+                HamtaInlagg();
+            } catch (SQLException ex) {
+                Logger.getLogger(bloggForum.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                } 
+        if(harVärde == false){
+            
+        }
+    }//GEN-LAST:event_btnTaBortActionPerformed
 
     /**
      * @param args the command line arguments
@@ -199,6 +267,7 @@ public class bloggForum extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnTaBort;
     private javax.swing.JToggleButton btnTest;
     private javax.swing.JButton btnTillbaka;
     private javax.swing.JScrollPane jScrollPane1;
