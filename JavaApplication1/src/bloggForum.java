@@ -18,15 +18,32 @@ import net.proteanit.sql.DbUtils;
  * @author Simon Berg
  */
 public class bloggForum extends javax.swing.JFrame {
-    
+    private String inloggadPerson;
+    private boolean admin;
     
 
     /**
      * Creates new form bloggForum
      */
-       public bloggForum() throws SQLException {
+       public bloggForum(String anvandarnamn) throws SQLException{
         initComponents();
         HamtaInlagg();
+         try {
+            String sqlAdmin = "Select `anamn`, `admin` from `user` where `anamn`=? and `admin`=?";
+            con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+            pstmt = con.prepareStatement(sqlAdmin);
+            pstmt.setString(1, inloggadPerson);
+            pstmt.setString(2, "JA");
+            rs =pstmt.executeQuery();
+            if (rs.next()) {
+                rs.getString("admin");
+                this.admin = true;
+            } else {
+                this.admin = false;
+            }
+        } catch (Exception e) {
+            System.out.println("Intern felmeddelande, Hittar inte Admin-Status: " + e.getMessage());
+        }
        }
        
     Connection con = null;
@@ -37,6 +54,7 @@ public class bloggForum extends javax.swing.JFrame {
     String anvandare;
     String värde; 
     private Boolean harVärde;
+    String anvandarnamn = inloggadPerson;
     
             
      public void HamtaInlagg() throws SQLException{
@@ -258,7 +276,8 @@ public class bloggForum extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new bloggForum().setVisible(true);
+                    String anvandarnamn="";
+                    new bloggForum(anvandarnamn).setVisible(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(bloggForum.class.getName()).log(Level.SEVERE, null, ex);
                 }
