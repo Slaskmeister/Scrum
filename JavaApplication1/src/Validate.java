@@ -11,6 +11,7 @@
 import  javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import  javax.swing.JTextField;
+import javax.swing.JTextArea;
 
 public class Validate {
 
@@ -30,4 +31,14 @@ return false;}
 else {
 return true;}
 }
+
+public static boolean inteTomtArea(JTextArea textArea){
+if (textArea.getText().isEmpty()){
+    JOptionPane.showMessageDialog(null, "Textfältet " +  " är tomt!", "Tomt fält", 1);
+    return false;
+} else {
+    return true;
+}
+}
+
 }
