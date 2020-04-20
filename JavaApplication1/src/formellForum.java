@@ -75,6 +75,7 @@ public class formellForum extends javax.swing.JFrame {
         btnStartsida = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPoster = new javax.swing.JTable();
+        btnTaBort = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -142,19 +143,13 @@ public class formellForum extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblPoster);
         tblPoster.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
+        btnTaBort.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        btnTaBort.setText("Ta bort inlägg");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblVäljKategori)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btnVisaPost, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addComponent(btnSkapaInlägg)
@@ -163,6 +158,19 @@ public class formellForum extends javax.swing.JFrame {
                 .addGap(74, 74, 74)
                 .addComponent(btnStartsida)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblVäljKategori)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnVisaPost, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnTaBort)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,7 +184,9 @@ public class formellForum extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnVisaPost))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnTaBort)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSkapaInlägg)
                     .addComponent(btnLäggTillKategori)
@@ -231,6 +241,7 @@ public class formellForum extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Något gick fel, kontrollera uppkoppling till db");
             }
  }
+    
     
     private void fyllComboBox(){
     cbKategori.removeAllItems();
@@ -289,6 +300,7 @@ public class formellForum extends javax.swing.JFrame {
     private javax.swing.JButton btnLäggTillKategori;
     private javax.swing.JButton btnSkapaInlägg;
     private javax.swing.JButton btnStartsida;
+    private javax.swing.JButton btnTaBort;
     private javax.swing.JButton btnVisaPost;
     private javax.swing.JComboBox<String> cbKategori;
     private javax.swing.JScrollPane jScrollPane1;
