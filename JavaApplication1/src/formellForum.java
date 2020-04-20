@@ -101,6 +101,11 @@ public class formellForum extends javax.swing.JFrame {
 
         btnSkapaInlägg.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnSkapaInlägg.setText("Skapa inlägg");
+        btnSkapaInlägg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSkapaInläggActionPerformed(evt);
+            }
+        });
 
         btnStartsida.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnStartsida.setText("Startsida");
@@ -142,18 +147,14 @@ public class formellForum extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnVisaPost))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lblVäljKategori)))
-                .addGap(5, 5, 5)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 733, Short.MAX_VALUE))
+                    .addComponent(lblVäljKategori)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnVisaPost, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addComponent(btnSkapaInlägg)
@@ -172,10 +173,10 @@ public class formellForum extends javax.swing.JFrame {
                         .addComponent(lblVäljKategori)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnVisaPost))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 260, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSkapaInlägg)
                     .addComponent(btnLäggTillKategori)
@@ -206,6 +207,13 @@ public class formellForum extends javax.swing.JFrame {
          System.out.println("Det gick inte att visa inlägg" + ex.getMessage());
         }
     }//GEN-LAST:event_btnVisaPostActionPerformed
+
+    private void btnSkapaInläggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaInläggActionPerformed
+                   String anvandarnamn = inloggadPerson;
+                   SkapaInläggFormell skapa = new SkapaInläggFormell(anvandarnamn);
+                   skapa.setVisible(true);
+                   formellForum.this.dispose();
+    }//GEN-LAST:event_btnSkapaInläggActionPerformed
      public void HamtaInlagg() throws SQLException{
      try
      { 
