@@ -38,8 +38,7 @@ public class Startsida extends javax.swing.JFrame {
         pst = null;
         rs = null;
         pst2 = null;
-        admin = true;
-          try {
+ try {
             String sqlAdmin = "Select `anamn`, `admin` from `user` where `anamn`=? and `admin`=?";
             con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
             pst2 = con.prepareStatement(sqlAdmin);
@@ -55,7 +54,7 @@ public class Startsida extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Intern felmeddelande, Hittar inte Admin-Status: " + e.getMessage());
         }
-          if(admin = false){
+          if(admin == false){
           btnAdmin.setVisible(false);
           }
           fyllComboBox();
@@ -368,7 +367,8 @@ public class Startsida extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUtbildningActionPerformed
 
     private void btnForskningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForskningActionPerformed
-        // TODO add your handling code here:
+     
+
     }//GEN-LAST:event_btnForskningActionPerformed
 
     private void btnKalenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKalenderActionPerformed
