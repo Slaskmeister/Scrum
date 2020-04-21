@@ -29,6 +29,7 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
         lblOk.setVisible(false);
         lblFel.setVisible(false);
         fyllComboBox();
+        txtaInlägg.setLineWrap(true);
     }
     
      private void fyllComboBox(){
