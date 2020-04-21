@@ -250,7 +250,6 @@ public class bloggForum extends javax.swing.JFrame {
         int rad = tblInlägg.getSelectedRow();                                   //Visar markrad rad i tabellen
         värde = tblInlägg.getModel().getValueAt(rad, kolumn).toString();
         värde2 = tblInlägg.getModel().getValueAt(rad, 2).toString();
-        JOptionPane.showMessageDialog(null, värde2);
 
 //        värde=null;
 //        int kolumn = 0;
