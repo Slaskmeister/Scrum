@@ -34,9 +34,10 @@ public class bloggForum extends javax.swing.JFrame {
     /**
      * Creates new form bloggForum
      */
-       public bloggForum(String anvandarnamn) throws SQLException{
+       public bloggForum(String anvandare) throws SQLException{
         initComponents();
         HamtaInlagg();
+        inloggadPerson = anvandare;
          try {
             String sqlAdmin = "Select `anamn`, `admin` from `user` where `anamn`=? and `admin`=?";
             con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
@@ -230,10 +231,10 @@ public class bloggForum extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTillbakaActionPerformed
 
     private void btnTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestActionPerformed
-                   String anvandarnamn = inloggadPerson;
-                   SkapaInläggFormell skapa = new SkapaInläggFormell(anvandarnamn);
+                   String anvandare = inloggadPerson;
+                   SkapaInlägg skapa = new SkapaInlägg(anvandare);
                    skapa.setVisible(true);
-                   bloggForum.this.dispose();
+                   
 //            SkapaInlägg inlagg = new SkapaInlägg();
 //            inlagg.setVisible(true);
 //            this.dispose();
