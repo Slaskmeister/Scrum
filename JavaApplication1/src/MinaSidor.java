@@ -89,8 +89,8 @@ public class MinaSidor extends javax.swing.JFrame {
                pst.setBinaryStream(1, (InputStream) bild, (int)(selectedFile.length()));
                pst.setString(2,inloggadPerson);
                pst.execute();
-              } catch (SQLException ex) {
-                  Logger.getLogger(ellinor.class.getName()).log(Level.SEVERE, null, ex);
+              } catch (Exception ex) {
+                  System.out.println("Fel" + ex.getMessage());
               }
           }
 
