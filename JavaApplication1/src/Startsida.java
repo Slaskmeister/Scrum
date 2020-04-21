@@ -357,7 +357,12 @@ public class Startsida extends javax.swing.JFrame {
 
     private void btnMinaSidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinaSidorActionPerformed
         String anvandare = inloggadPerson;
-        MinaSidor minsida = new MinaSidor(anvandare);
+        MinaSidor minsida =null;
+        try {
+            minsida = new MinaSidor(anvandare);
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
         minsida.setVisible(true);
         Startsida.this.dispose();    
     }//GEN-LAST:event_btnMinaSidorActionPerformed
