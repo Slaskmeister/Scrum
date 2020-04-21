@@ -1,10 +1,13 @@
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -23,6 +26,9 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
     private PreparedStatement pst;
     private ResultSet rs;
     private Connection con;
+    private File file;
+    private String path;
+    private String filnamn;
     /**
      * Creates new form SkapaInläggFormell
      */
@@ -56,24 +62,45 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
     private void publiceraInlagg() {                                         
         if (Validate.inteTomtArea(txtaInlägg)){
             
-        try{
+        
+            try {
+          FileInputStream fin = new FileInputStream(file);
+          int len = (int) file.length();
+          Class.forName("com.mysql.jdbc.Driver");
+          Connection con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+          
+          PreparedStatement ps = con.prepareStatement("INSERT INTO `dokument`(fil,Fil_namn) values (?,'"+filnamn+"');");
+          ps.setBinaryStream(1, fin, len);
+          int status = ps.executeUpdate();
+          JOptionPane.showInternalMessageDialog(rootPane, "Dokumentet har lagts till");
+          txtFilnamn.setText("");
+          
+         PreparedStatement pst1 = con.prepareStatement("select max(Fil_ID) from `dokument`");
+         ResultSet rs = pst1.executeQuery();
+         String dokID ="" ;
+         while(rs.next())
+            {
+                dokID = rs.getString(1);
+            }
+        
             String valdKategori = cbKategori.getSelectedItem().toString();
             String nyttInlagg = txtaInlägg.getText();
-            String sql = "INSERT INTO `formella poster`(`Text`, `kategori_fk`, `Användarnamn`) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO `formella poster`(`Text`, `kategori_fk`, `Användarnamn`, `dokument_fk`) VALUES (?, ?, ?, ?)";
             con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
             pst=con.prepareStatement(sql);
             pst.setString(1, nyttInlagg);
             pst.setString(2, valdKategori);
             pst.setString(3, inloggadPerson);
+            pst.setString(4, dokID);
             pst.executeUpdate();
             lblOk.setText("Inlägget har publicerats ");
-            lblOk.setVisible(true);
+            lblOk.setVisible(true);}
             
             
-        }
+        
     catch (Exception ex){
-            System.out.println(ex.getMessage()); }
-    }
+            System.out.println(ex.getMessage()); }}
+    
     else {
     lblFel.setText("Det gick inte att göra inlägg");
     lblFel.setVisible(true);
@@ -162,10 +189,8 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
                                     .addGap(72, 72, 72)
                                     .addComponent(lblSkrivInlägg))
                                 .addGroup(layout.createSequentialGroup()
-                                    .addGap(23, 23, 23)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(lblKategori)
-                                        .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGap(25, 25, 25)
+                                    .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGap(271, 271, 271))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addContainerGap()
@@ -188,9 +213,11 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
                                         .addComponent(lblBifoga))))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblOk)
-                            .addComponent(lblFel, javax.swing.GroupLayout.Alignment.LEADING))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(lblOk)
+                                .addComponent(lblFel, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(lblKategori))))
                 .addContainerGap(429, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -248,34 +275,34 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
         }
         
         else{
-        String filnamn = txtFilnamn.getText();
+        filnamn = txtFilnamn.getText();
         JFileChooser fileChooser = new JFileChooser();
         
         fileChooser.showOpenDialog(this);
         
-        File file = fileChooser.getSelectedFile();
-        String path = file.getAbsolutePath();
+        file = fileChooser.getSelectedFile();
+        path = file.getAbsolutePath();
         
         
 
-        try {
-          FileInputStream fin = new FileInputStream(file);
-          int len = (int) file.length();
-          Class.forName("com.mysql.jdbc.Driver");
-          Connection con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
-          
-          PreparedStatement ps = con.prepareStatement("INSERT INTO `dokument`(fil,Fil_namn) values (?,'"+filnamn+"');");
-          ps.setBinaryStream(1, fin, len);
-          int status = ps.executeUpdate();
-          JOptionPane.showInternalMessageDialog(rootPane, "Dokumentet har lagts till");
-          txtFilnamn.setText("");
-          
-        } catch (Exception ex) {
-          System.out.println(ex);
-        }
-        }
+//        try {
+//          FileInputStream fin = new FileInputStream(file);
+//          int len = (int) file.length();
+//          Class.forName("com.mysql.jdbc.Driver");
+//          Connection con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+//          
+//          PreparedStatement ps = con.prepareStatement("INSERT INTO `dokument`(fil,Fil_namn) values (?,'"+filnamn+"');");
+//          ps.setBinaryStream(1, fin, len);
+//          int status = ps.executeUpdate();
+//          JOptionPane.showInternalMessageDialog(rootPane, "Dokumentet har lagts till");
+//          txtFilnamn.setText("");
+//          
+//        } catch (Exception ex) {
+//          System.out.println(ex);
+//        }
+//        }
     }//GEN-LAST:event_btnBifogaActionPerformed
-
+    }
     /**
      * @param args the command line arguments
      */
