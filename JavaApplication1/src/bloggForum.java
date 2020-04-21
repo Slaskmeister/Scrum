@@ -20,6 +20,15 @@ import net.proteanit.sql.DbUtils;
 public class bloggForum extends javax.swing.JFrame {
     private String inloggadPerson;
     private boolean admin;
+    private String värde2;
+        Connection con = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    Statement st = null;
+    Timer update;
+    String anvandare;
+    String värde; 
+    private Boolean harVärde;
     
 
     /**
@@ -44,19 +53,7 @@ public class bloggForum extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Intern felmeddelande, Hittar inte Admin-Status: " + e.getMessage());
         }
-       }
-       
-    Connection con = null;
-    PreparedStatement pstmt = null;
-    ResultSet rs = null;
-    Statement st = null;
-    Timer update;
-    String anvandare;
-    String värde; 
-    private Boolean harVärde;
-    String anvandarnamn = inloggadPerson;
-    
-            
+       }           
      public void HamtaInlagg() throws SQLException{
      try
      {          
@@ -233,32 +230,65 @@ public class bloggForum extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTillbakaActionPerformed
 
     private void btnTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestActionPerformed
-            SkapaInlägg inlagg = new SkapaInlägg();
-            inlagg.setVisible(true);
-            this.dispose();
+                   String anvandarnamn = inloggadPerson;
+                   SkapaInläggFormell skapa = new SkapaInläggFormell(anvandarnamn);
+                   skapa.setVisible(true);
+                   bloggForum.this.dispose();
+//            SkapaInlägg inlagg = new SkapaInlägg();
+//            inlagg.setVisible(true);
+//            this.dispose();
     }//GEN-LAST:event_btnTestActionPerformed
 
     private void tblInläggMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInläggMouseClicked
-        värde=null;
+       värde=null;
+       värde2=null;
         int kolumn = 0;
+        int anv = 3;
         int rad = tblInlägg.getSelectedRow();                                   //Visar markrad rad i tabellen
-        värde = tblInlägg.getModel().getValueAt(rad, kolumn).toString();        //Sätter värdet av raden till en variabel
-        //JOptionPane.showMessageDialog(null, värde);      
+        värde = tblInlägg.getModel().getValueAt(rad, kolumn).toString();
+        värde2 = tblInlägg.getModel().getValueAt(rad, anv).toString();
+
+//        värde=null;
+//        int kolumn = 0;
+//        int rad = tblInlägg.getSelectedRow();                                   //Visar markrad rad i tabellen
+//        värde = tblInlägg.getModel().getValueAt(rad, kolumn).toString();        //Sätter värdet av raden till en variabel
     }//GEN-LAST:event_tblInläggMouseClicked
 
     private void btnTaBortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortActionPerformed
+        if (admin == true){
+        
         KollaVärde();
         if(harVärde = true){
                 TaBortVärde();
             try {
                 HamtaInlagg();
-            } catch (SQLException ex) {
-                Logger.getLogger(bloggForum.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             }
-                } 
-        if(harVärde == false){
-            
+                } }
+        else if(värde2.equals(inloggadPerson)){
+        TaBortVärde();
+            try {
+                HamtaInlagg();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
         }
+        else {
+             JOptionPane.showMessageDialog(null, "Du är inte behörig att ta bort detta inlägg");
+        }
+//        KollaVärde();
+//        if(harVärde = true){
+//                TaBortVärde();
+//            try {
+//                HamtaInlagg();
+//            } catch (SQLException ex) {
+//                Logger.getLogger(bloggForum.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//                } 
+//        if(harVärde == false){
+//            
+//        }
     }//GEN-LAST:event_btnTaBortActionPerformed
 
     private void btnLäsInläggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLäsInläggActionPerformed
