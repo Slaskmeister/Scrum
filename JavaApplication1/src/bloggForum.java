@@ -114,6 +114,13 @@ public class bloggForum extends javax.swing.JFrame {
                 }
         return harVärde;
         }
+        public void visaInlagg(){
+       String inlägg;
+       inlägg = tblInlägg.getValueAt(tblInlägg.getSelectedRow(), 1).toString();
+       JOptionPane.showMessageDialog(null, inlägg);
+       }
+        
+            
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -128,6 +135,7 @@ public class bloggForum extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblInlägg = new javax.swing.JTable();
         btnTaBort = new javax.swing.JButton();
+        btnLäsInlägg = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -175,37 +183,45 @@ public class bloggForum extends javax.swing.JFrame {
             }
         });
 
+        btnLäsInlägg.setText("Läs Inlägg");
+        btnLäsInlägg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLäsInläggActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnTillbaka)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(44, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnTest)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnTaBort)
-                        .addGap(90, 90, 90))))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
-                .addContainerGap())
+                        .addComponent(btnTillbaka))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnLäsInlägg)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnTaBort))))
+                .addGap(38, 38, 38))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
+                .addGap(34, 34, 34)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTest)
+                    .addComponent(btnLäsInlägg)
                     .addComponent(btnTaBort))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnTillbaka)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnTillbaka)
+                    .addComponent(btnTest))
                 .addGap(25, 25, 25))
         );
 
@@ -244,6 +260,10 @@ public class bloggForum extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_btnTaBortActionPerformed
+
+    private void btnLäsInläggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLäsInläggActionPerformed
+        visaInlagg();        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLäsInläggActionPerformed
 
     /**
      * @param args the command line arguments
@@ -286,6 +306,7 @@ public class bloggForum extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLäsInlägg;
     private javax.swing.JButton btnTaBort;
     private javax.swing.JToggleButton btnTest;
     private javax.swing.JButton btnTillbaka;
