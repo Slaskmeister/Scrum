@@ -20,14 +20,14 @@ import net.proteanit.sql.DbUtils;
 public class bloggForum extends javax.swing.JFrame {
     private String inloggadPerson;
     private boolean admin;
+    private String värde; 
     private String värde2;
-        Connection con = null;
+    Connection con = null;
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     Statement st = null;
     Timer update;
     String anvandare;
-    String värde; 
     private Boolean harVärde;
     
 
@@ -38,6 +38,9 @@ public class bloggForum extends javax.swing.JFrame {
         initComponents();
         HamtaInlagg();
         inloggadPerson = anvandare;
+        admin=true;
+        
+        
          try {
             String sqlAdmin = "Select `anamn`, `admin` from `user` where `anamn`=? and `admin`=?";
             con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
@@ -244,7 +247,7 @@ public class bloggForum extends javax.swing.JFrame {
        värde=null;
        värde2=null;
         int kolumn = 0;
-        int anv = 3;
+        int anv = 2;
         int rad = tblInlägg.getSelectedRow();                                   //Visar markrad rad i tabellen
         värde = tblInlägg.getModel().getValueAt(rad, kolumn).toString();
         värde2 = tblInlägg.getModel().getValueAt(rad, anv).toString();
