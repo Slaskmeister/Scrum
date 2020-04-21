@@ -2,6 +2,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 
@@ -15,9 +18,14 @@ public class SkapaInlägg extends javax.swing.JFrame {
     Connection connec = null;  
     PreparedStatement pst = null;
     ResultSet res = null;
+    private String inloggadPerson;
     
-    public SkapaInlägg() {
+    public SkapaInlägg(String anvandare) {
         initComponents();
+        inloggadPerson = anvandare;
+        lblok.setVisible(false);
+        lblfel.setVisible(false);
+        
         
     }
 
@@ -34,10 +42,10 @@ public class SkapaInlägg extends javax.swing.JFrame {
         btnPosta = new javax.swing.JButton();
         lblok = new javax.swing.JLabel();
         lblfel = new javax.swing.JLabel();
+        btnTillbaka = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        txtInlagg.setText("txtInlägg");
         txtInlagg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtInlaggActionPerformed(evt);
@@ -57,6 +65,13 @@ public class SkapaInlägg extends javax.swing.JFrame {
         lblfel.setForeground(new java.awt.Color(255, 51, 51));
         lblfel.setText("Fel");
 
+        btnTillbaka.setText("Tillbaka");
+        btnTillbaka.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTillbakaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -67,14 +82,13 @@ public class SkapaInlägg extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblfel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblok, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnPosta)
-                        .addGap(37, 37, 37))))
+                    .addComponent(lblok, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblfel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnPosta)
+                    .addComponent(btnTillbaka))
+                .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -85,9 +99,14 @@ public class SkapaInlägg extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPosta)
                     .addComponent(lblok))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblfel)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblfel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(btnTillbaka)))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         pack();
@@ -103,13 +122,15 @@ public class SkapaInlägg extends javax.swing.JFrame {
         String nyttInlagg = "";
         try{
             nyttInlagg = txtInlagg.getText();
-            String query = "INSERT INTO `post`(`Text`) VALUES (?)";
+            String query = "INSERT INTO `post`(`Text`, `Användarnamn`) VALUES (?, ?)";
             connec = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
             pst=connec.prepareStatement(query);
             pst.setString(1, txtInlagg.getText());
+            pst.setString(2, inloggadPerson);
             pst.executeUpdate();
-            //lblok.setText("Inlägget har postast ");
-            //lblok.setVisible(true);
+            lblok.setText("Inlägget har skapats ");
+            lblok.setVisible(true);
+            txtInlagg.setText("");
             
             
         }
@@ -118,9 +139,20 @@ public class SkapaInlägg extends javax.swing.JFrame {
     }
     else {
     lblfel.setText("Det gick inte att göra inlägg");
-    lblfel.setVisible(true);
+    lblfel.setVisible(true);}
     }//GEN-LAST:event_btnPostaActionPerformed
-    }
+
+    private void btnTillbakaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTillbakaActionPerformed
+        try {
+            String anvandare = inloggadPerson;
+            bloggForum skapa = new bloggForum(anvandare);
+            skapa.setVisible(true);
+            SkapaInlägg.this.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(SkapaInlägg.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnTillbakaActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -151,7 +183,8 @@ public class SkapaInlägg extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SkapaInlägg().setVisible(true);
+                String anvandarnamn = "";
+                new SkapaInlägg(anvandarnamn).setVisible(true);
             }
         });
     }
@@ -159,6 +192,7 @@ public class SkapaInlägg extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPosta;
+    private javax.swing.JButton btnTillbaka;
     private javax.swing.JLabel lblfel;
     private javax.swing.JLabel lblok;
     private javax.swing.JTextField txtInlagg;
