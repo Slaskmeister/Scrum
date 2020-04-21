@@ -3,6 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,7 +17,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  *
  * @author ellinor
@@ -22,14 +32,17 @@ public class MinaSidor extends javax.swing.JFrame {
     private ResultSet rs;
     private Connection con;
      
-   public MinaSidor(String anvandarnamn) {
+   public MinaSidor(String anvandarnamn) throws SQLException {
         initComponents();
+        label.setBackground(Color.lightGray);
+        label.setOpaque(true);
         lblBekräftelse.setVisible(false);
         inloggadPerson = anvandarnamn;
         pst= null;
         rs=null;
         con= null;
         lblÄndraLösen.setText("Ändra Lösenord för" + " " + inloggadPerson);
+        visaBild();
     }
 
 
@@ -51,7 +64,73 @@ public class MinaSidor extends javax.swing.JFrame {
         }
     }
     }
-  
+    
+     
+    public void ändraBild() throws FileNotFoundException {
+        
+          JFileChooser file = new JFileChooser();
+          file.setCurrentDirectory(new File(System.getProperty("user.home")));
+          //filter the files
+          FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Images", "jpg","gif","png");
+          file.addChoosableFileFilter(filter);
+          int result = file.showSaveDialog(null);
+           //if the user click on save in Jfilechooser
+          if(result == JFileChooser.APPROVE_OPTION){
+              File selectedFile = file.getSelectedFile();
+              String path = selectedFile.getAbsolutePath();
+              label.setIcon(ResizeImage(path));
+              InputStream bild= new FileInputStream(selectedFile);
+            
+             
+              try {
+               String profilBild = "Update `user` set `bild`=? where `anamn`=?";   
+               con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+               pst=con.prepareStatement(profilBild);
+               pst.setBinaryStream(1, (InputStream) bild, (int)(selectedFile.length()));
+               pst.setString(2,inloggadPerson);
+               pst.execute();
+              } catch (SQLException ex) {
+                  Logger.getLogger(ellinor.class.getName()).log(Level.SEVERE, null, ex);
+              }
+          }
+
+          else if(result == JFileChooser.CANCEL_OPTION){
+              System.out.println("Ingen fil är vald");
+          }
+        }
+    
+       public ImageIcon ResizeImage(String ImagePath)
+    {
+        ImageIcon MyImage = new ImageIcon(ImagePath);
+        Image img = MyImage.getImage();
+        Image newImg = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(newImg);
+        return image;
+    }
+    
+       public void visaBild() throws SQLException{
+       
+       try{ byte[] imageBytes;
+        Image image;
+        con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+        pst = con.prepareStatement("Select `bild` from `user` where `anamn`=?");
+        pst.setString(1,inloggadPerson);
+        rs = pst.executeQuery();
+
+        while (rs.next()) {
+            imageBytes=rs.getBytes(1);
+            image=Toolkit.getDefaultToolkit().createImage(imageBytes);
+            Image nyBild = image.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon(nyBild);
+            label.setIcon(icon);
+        }
+       }
+       catch (Exception e) {
+            System.out.println("Intern felmeddelande" + e.getMessage());
+        }
+          
+       }
+       
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -69,6 +148,8 @@ public class MinaSidor extends javax.swing.JFrame {
         btnÄndraLösen = new javax.swing.JButton();
         btnMöte = new javax.swing.JButton();
         btnStartsida = new javax.swing.JButton();
+        label = new javax.swing.JLabel();
+        btnProfilbild = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -106,47 +187,74 @@ public class MinaSidor extends javax.swing.JFrame {
             }
         });
 
+        label.setBackground(new java.awt.Color(102, 102, 102));
+        label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label.setText("Profilbild saknas");
+
+        btnProfilbild.setText("Ändra profilbild");
+        btnProfilbild.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProfilbildActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnStartsida, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnStartsida, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(lblBekräftelse, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnMöte, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblÄndraLösen)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblNyttLösen, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(pwÄndraLösen, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                                .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnÄndraLösen)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnProfilbild, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)))))
                 .addGap(31, 31, 31))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnMöte, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblÄndraLösen)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnÄndraLösen)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblBekräftelse, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblNyttLösen, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pwÄndraLösen, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(70, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnStartsida)
-                .addGap(50, 50, 50)
-                .addComponent(btnMöte)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
-                .addComponent(lblÄndraLösen, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNyttLösen)
-                    .addComponent(pwÄndraLösen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(btnMöte)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                        .addComponent(lblÄndraLösen, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNyttLösen)
+                            .addComponent(pwÄndraLösen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnÄndraLösen)
-                    .addComponent(lblBekräftelse))
-                .addGap(93, 93, 93))
+                    .addComponent(btnProfilbild))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblBekräftelse)
+                .addGap(72, 72, 72))
         );
 
         pack();
@@ -166,6 +274,14 @@ public class MinaSidor extends javax.swing.JFrame {
                    start.setVisible(true);
                    MinaSidor.this.dispose();
     }//GEN-LAST:event_btnStartsidaActionPerformed
+
+    private void btnProfilbildActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfilbildActionPerformed
+        try {
+            ändraBild();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MinaSidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnProfilbildActionPerformed
 
     /**
      * @param args the command line arguments
@@ -198,15 +314,21 @@ public class MinaSidor extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 String anvandarnamn = "";
-                new MinaSidor(anvandarnamn).setVisible(true);
+                try {
+                    new MinaSidor(anvandarnamn).setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MinaSidor.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMöte;
+    private javax.swing.JButton btnProfilbild;
     private javax.swing.JButton btnStartsida;
     private javax.swing.JButton btnÄndraLösen;
+    private javax.swing.JLabel label;
     private javax.swing.JLabel lblBekräftelse;
     private javax.swing.JLabel lblNyttLösen;
     private javax.swing.JLabel lblÄndraLösen;
