@@ -29,6 +29,7 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
         lblOk.setVisible(false);
         lblFel.setVisible(false);
         fyllComboBox();
+        txtaInlägg.setLineWrap(true);
     }
     
      private void fyllComboBox(){
@@ -55,11 +56,12 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
         try{
             String valdKategori = cbKategori.getSelectedItem().toString();
             String nyttInlagg = txtaInlägg.getText();
-            String sql = "INSERT INTO `formella poster`(`Text`, `kategori_fk`) VALUES (?, ?)";
+            String sql = "INSERT INTO `formella poster`(`Text`, `kategori_fk`, `Användarnamn`) VALUES (?, ?, ?)";
             con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
             pst=con.prepareStatement(sql);
             pst.setString(1, nyttInlagg);
             pst.setString(2, valdKategori);
+            pst.setString(3, inloggadPerson);
             pst.executeUpdate();
             lblOk.setText("Inlägget har publicerats ");
             lblOk.setVisible(true);
