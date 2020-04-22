@@ -28,7 +28,7 @@ public class Sebbe extends javax.swing.JFrame {
     public Sebbe(String anvandarnamn) {
         initComponents();
         döljMeddelande();
-        DisplayTable();
+        DisplayTable();  
     }
     
     private void DisplayTable(){
