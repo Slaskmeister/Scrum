@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -49,13 +50,13 @@ public class MeetingRepository {
         }
     }
     
-    private Integer saveMeeting(String meetingName, Date date) {
+    private Integer saveMeeting(String meetingName, LocalDateTime meetingDate) {
         try {
-
+            Timestamp meetingTimestamp = Timestamp.valueOf(meetingDate);
             String query = "INSERT INTO `möte`(`titel`, `datum`) VALUES (?, ?)";
             pst = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             pst.setString(1, meetingName);
-            pst.setDate(2, new java.sql.Date(new Date().getTime()));
+            pst.setTimestamp(2, meetingTimestamp);
             pst.executeUpdate();
             
             ResultSet keys = pst.getGeneratedKeys();
