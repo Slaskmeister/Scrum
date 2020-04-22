@@ -1,3 +1,5 @@
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import static javax.swing.JSplitPane.TOP;
@@ -11,6 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Timer;
 import java.lang.String;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -115,11 +119,40 @@ public class bloggForum extends javax.swing.JFrame {
                 }
         return harVärde;
         }
-        public void visaInlagg(){
+        
+       public void visaInlägg() throws SQLException{
        String inlägg;
        inlägg = tblInlägg.getValueAt(tblInlägg.getSelectedRow(), 1).toString();
-       JOptionPane.showMessageDialog(null, inlägg);
+              
+       try{ 
+        byte[] imageBytes;
+        Image image;
+        con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+        pstmt = con.prepareStatement("Select `bild` from `post` where `Text`=?");
+        pstmt.setString(1,inlägg);
+        rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            imageBytes=rs.getBytes(1);
+            image=Toolkit.getDefaultToolkit().createImage(imageBytes);
+            Image nyBild = image.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon(nyBild);
+//            label.setIcon(icon);
+                        JOptionPane.showMessageDialog(
+                        null,
+                        new JLabel(inlägg, icon, JLabel.LEFT),
+                        "Inlägg", JOptionPane.PLAIN_MESSAGE);
+           
+                  
+        }
        }
+       catch (Exception e) {
+            System.out.println("Intern felmeddelande" + e.getMessage());
+        }
+       
+       }
+       
+       
         
             
     /**
@@ -295,7 +328,11 @@ public class bloggForum extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTaBortActionPerformed
 
     private void btnLäsInläggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLäsInläggActionPerformed
-        visaInlagg();        // TODO add your handling code here:
+        try {
+            visaInlägg();        // TODO add your handling code here:
+        } catch (SQLException ex) {
+            Logger.getLogger(bloggForum.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnLäsInläggActionPerformed
 
     /**
