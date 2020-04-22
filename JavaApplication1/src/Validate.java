@@ -8,6 +8,8 @@
  *
  * @author Sebbe
  */
+import java.time.LocalDate;
+import java.time.LocalTime;
 import  javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import  javax.swing.JTextField;
@@ -41,4 +43,17 @@ if (textArea.getText().isEmpty()){
 }
 }
 
+    public static boolean localDateIsValid(LocalDate date) {
+       if(date == null) {
+           return false;
+       } 
+       return true;
+    }
+    
+    public static boolean localTimeIsValid(LocalTime time) {
+       if(time == null) {
+           return false;
+       } 
+       return true;
+    }
 }
