@@ -168,8 +168,8 @@ public class UtbildningsForum extends javax.swing.JFrame {
                                 .addComponent(btnTaBort)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addGap(113, 113, 113))))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
+                                .addGap(67, 67, 67))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(244, 244, 244)
                         .addComponent(btnStartsida)
@@ -186,7 +186,7 @@ public class UtbildningsForum extends javax.swing.JFrame {
                         .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnVisaPost)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
@@ -273,7 +273,7 @@ public class UtbildningsForum extends javax.swing.JFrame {
          try
      { 
        String valdKategori = cbKategori.getSelectedItem().toString();
-       String sql = "Select * from `Utbildning poster` where `kategori`=?";
+       String sql = "Select * from `utbildning post` where `kategori_fk`=?";
        con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
        pst2 = con.prepareStatement(sql);
        pst2.setString(1, valdKategori);
@@ -284,12 +284,13 @@ public class UtbildningsForum extends javax.swing.JFrame {
         
         catch (Exception ex){
             JOptionPane.showMessageDialog(null, "Något gick fel, kontrollera uppkoppling till db");
+            System.out.println(ex.getMessage());
             }
  }
      private void TaBortVärde(){
             try
      {          
-       String sqlr = "Delete from `utbildnig poster` where `ID`="+värde;
+       String sqlr = "Delete from `utbildning post` where `ID`="+värde;
        con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
        pst2 = con.prepareStatement(sqlr);
        pst2.executeUpdate(sqlr);
@@ -316,7 +317,7 @@ public class UtbildningsForum extends javax.swing.JFrame {
     cbKategori.addItem("Välj");
     try{
     con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
-           String sql = "select namn from Utbildning kategori";
+           String sql = "select `namn` from `utbildning kategori`";
            PreparedStatement pst2 = con.prepareStatement(sql);
            ResultSet rs = pst2.executeQuery();
            while (rs.next()){
