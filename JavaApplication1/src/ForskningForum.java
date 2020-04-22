@@ -174,11 +174,11 @@ public class ForskningForum extends javax.swing.JFrame {
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addGap(113, 113, 113))))
+                                .addGap(50, 50, 50))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(244, 244, 244)
                         .addComponent(btnStartsida)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 400, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,7 +191,7 @@ public class ForskningForum extends javax.swing.JFrame {
                         .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnVisaPost)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
@@ -218,7 +218,7 @@ public class ForskningForum extends javax.swing.JFrame {
 
     private void btnSkapaInläggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaInläggActionPerformed
         String anvandarnamn = inloggadPerson;
-        SkapaInläggUtbildning skapa = new SkapaInläggUtbildning(anvandarnamn);
+        SkapaInläggForskning skapa = new SkapaInläggForskning(anvandarnamn);
         skapa.setVisible(true);
         ForskningForum.this.dispose();
     }//GEN-LAST:event_btnSkapaInläggActionPerformed
@@ -278,7 +278,7 @@ public class ForskningForum extends javax.swing.JFrame {
          try
      { 
        String valdKategori = cbKategori.getSelectedItem().toString();
-       String sql = "Select * from `Forskning poster` where `kategori_fk`=?";
+       String sql = "Select * from `forskning post` where `kategori_fk`=?";
        con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
        pst2 = con.prepareStatement(sql);
        pst2.setString(1, valdKategori);
@@ -294,7 +294,7 @@ public class ForskningForum extends javax.swing.JFrame {
      private void TaBortVärde(){
             try
      {          
-       String sqlr = "Delete from `Forskning poster` where `ID`="+värde;
+       String sqlr = "Delete from `forskning post` where `ID`="+värde;
        con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
        pst2 = con.prepareStatement(sqlr);
        pst2.executeUpdate(sqlr);
@@ -321,7 +321,7 @@ public class ForskningForum extends javax.swing.JFrame {
     cbKategori.addItem("Välj");
     try{
     con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
-           String sql = "select namn from Forskning kategori";
+           String sql = "select `namn` from `forskning kategori`";
            PreparedStatement pst2 = con.prepareStatement(sql);
            ResultSet rs = pst2.executeQuery();
            while (rs.next()){
