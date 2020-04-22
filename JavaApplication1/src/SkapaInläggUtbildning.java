@@ -40,7 +40,7 @@ public class SkapaInläggUtbildning extends javax.swing.JFrame {
     cbKategori.addItem("Välj");
     try{
     con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
-           String sql = "select namn from Utbildning kategori";
+           String sql = "select `namn` from `utbildning kategori`";
            PreparedStatement pst2 = con.prepareStatement(sql);
            ResultSet rs = pst2.executeQuery();
            while (rs.next()){
@@ -55,7 +55,6 @@ public class SkapaInläggUtbildning extends javax.swing.JFrame {
      
     private void publiceraInlagg() {                                         
         if (Validate.inteTomtArea(txtaInläggUtbildnig)){
-            
         
             try {
           FileInputStream fin = new FileInputStream(file);
@@ -79,13 +78,13 @@ public class SkapaInläggUtbildning extends javax.swing.JFrame {
         
             String valdKategori = cbKategori.getSelectedItem().toString();
             String nyttInlagg = txtaInläggUtbildnig.getText();
-            String sql = "INSERT INTO `Utbildning poster`(`Text`, `kategori_fk`, `Användarnamn`, `dokument_fk`) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO `utbildning post`(`Text`, `användarnamn`, `dokument_fk`, `kategori_fk`) VALUES (?, ?, ?, ?)";
             con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
             pst=con.prepareStatement(sql);
             pst.setString(1, nyttInlagg);
-            pst.setString(2, valdKategori);
-            pst.setString(3, inloggadPerson);
-            pst.setString(4, dokID);
+            pst.setString(2, inloggadPerson);
+            pst.setString(3, dokID);
+            pst.setString(4, valdKategori);
             pst.executeUpdate();
             lblOk.setText("Inlägget har publicerats ");
             lblOk.setVisible(true);}
@@ -212,7 +211,7 @@ public class SkapaInläggUtbildning extends javax.swing.JFrame {
                                 .addComponent(lblOk)
                                 .addComponent(lblFel, javax.swing.GroupLayout.Alignment.LEADING))
                             .addComponent(lblKategori))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(424, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,7 +224,7 @@ public class SkapaInläggUtbildning extends javax.swing.JFrame {
                         .addComponent(lblBifoga)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblFilnamn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                         .addComponent(txtFilnamn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBifogaFil, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -236,7 +235,7 @@ public class SkapaInläggUtbildning extends javax.swing.JFrame {
                 .addComponent(lblKategori)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPubliceraInlägg)
                     .addComponent(btnTillbaka))
@@ -259,36 +258,19 @@ public class SkapaInläggUtbildning extends javax.swing.JFrame {
 
     private void btnBifogaFilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBifogaFilActionPerformed
         if(txtFilnamn.getText().isEmpty()){
-
-            JOptionPane.showInternalMessageDialog(rootPane, "Ange vilket namn filen skall ha");
-
+        
+        JOptionPane.showInternalMessageDialog(rootPane, "Ange vilket namn filen skall ha");
+        
         }
-
+        
         else{
-            filnamn = txtFilnamn.getText();
-            JFileChooser fileChooser = new JFileChooser();
-
-            fileChooser.showOpenDialog(this);
-
-            file = fileChooser.getSelectedFile();
-            path = file.getAbsolutePath();
-
-                   try {
-                         FileInputStream fin = new FileInputStream(file);
-                         int len = (int) file.length();
-                         Class.forName("com.mysql.jdbc.Driver");
-                          Connection con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
-                
-                          PreparedStatement ps = con.prepareStatement("INSERT INTO `dokument`(fil,Fil_namn) values (?,'"+filnamn+"');");
-                          ps.setBinaryStream(1, fin, len);
-                         int status = ps.executeUpdate();
-                          JOptionPane.showInternalMessageDialog(rootPane, "Dokumentet har lagts till");
-                         txtFilnamn.setText("");
-                
-                        } catch (Exception ex) {
-                          System.out.println(ex);
-                       }
-                   }
+        filnamn = txtFilnamn.getText();
+        JFileChooser fileChooser = new JFileChooser();
+        
+        fileChooser.showOpenDialog(this);
+        
+        file = fileChooser.getSelectedFile();
+        path = file.getAbsolutePath();}
     }//GEN-LAST:event_btnBifogaFilActionPerformed
 
     private void btnPubliceraInläggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPubliceraInläggActionPerformed
