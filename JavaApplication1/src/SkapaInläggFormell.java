@@ -218,7 +218,7 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
                                 .addComponent(lblOk)
                                 .addComponent(lblFel, javax.swing.GroupLayout.Alignment.LEADING))
                             .addComponent(lblKategori))))
-                .addContainerGap(429, Short.MAX_VALUE))
+                .addContainerGap(434, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,7 +231,7 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
                         .addComponent(lblBifoga)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblFilnamn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtFilnamn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBifoga, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -242,7 +242,7 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
                 .addComponent(lblKategori)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPublicera)
                     .addComponent(btnTillbaka))
@@ -282,25 +282,6 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
         
         file = fileChooser.getSelectedFile();
         path = file.getAbsolutePath();
-        
-        
-
-//        try {
-//          FileInputStream fin = new FileInputStream(file);
-//          int len = (int) file.length();
-//          Class.forName("com.mysql.jdbc.Driver");
-//          Connection con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
-//          
-//          PreparedStatement ps = con.prepareStatement("INSERT INTO `dokument`(fil,Fil_namn) values (?,'"+filnamn+"');");
-//          ps.setBinaryStream(1, fin, len);
-//          int status = ps.executeUpdate();
-//          JOptionPane.showInternalMessageDialog(rootPane, "Dokumentet har lagts till");
-//          txtFilnamn.setText("");
-//          
-//        } catch (Exception ex) {
-//          System.out.println(ex);
-//        }
-//        }
     }//GEN-LAST:event_btnBifogaActionPerformed
     }
     /**
