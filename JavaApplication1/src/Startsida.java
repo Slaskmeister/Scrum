@@ -368,11 +368,17 @@ public class Startsida extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMinaSidorActionPerformed
 
     private void btnUtbildningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUtbildningActionPerformed
-        // TODO add your handling code here:
+        String anvandare = inloggadPerson;
+        UtbildningsForum forum = new UtbildningsForum(anvandare);
+        forum.setVisible(true);
+        Startsida.this.dispose();
     }//GEN-LAST:event_btnUtbildningActionPerformed
 
     private void btnForskningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForskningActionPerformed
-     
+        String anvandare = inloggadPerson;
+        ForskningForum forum = new ForskningForum(anvandare);
+        forum.setVisible(true);
+        Startsida.this.dispose(); 
 
     }//GEN-LAST:event_btnForskningActionPerformed
 
