@@ -5,6 +5,7 @@
  */
 package models;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -14,10 +15,10 @@ import java.util.List;
  */
 public class Meeting {
     private String meetingName;
-    private Date date;
+    private LocalDateTime date;
     private List<User> invitedUsers;
     
-    public Meeting(String meetingName, Date date, List<User> invitedUsers) {
+    public Meeting(String meetingName, LocalDateTime date, List<User> invitedUsers) {
         this.meetingName = meetingName;
         this.date = date;
         this.invitedUsers = invitedUsers;
@@ -27,7 +28,7 @@ public class Meeting {
         return meetingName;
     }
     
-    public Date getMeetingDate() {
+    public LocalDateTime getMeetingDate() {
         return date;
     }
     
