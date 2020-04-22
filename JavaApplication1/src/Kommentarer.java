@@ -4,6 +4,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.proteanit.sql.DbUtils;
 
 /*
@@ -19,13 +21,15 @@ import net.proteanit.sql.DbUtils;
 public class Kommentarer extends javax.swing.JFrame {
 
     private final int PostID;
+    private final String typ;
     private ResultSet rs;
 
     /**
      * Creates new form Kommentarer
      */
-    public Kommentarer(int PostID) throws SQLException {
+    public Kommentarer(int PostID,String typ) throws SQLException {
         this.PostID = PostID;
+        this.typ = typ;
         initComponents();
         HämtaKommentarer();
     }
@@ -34,7 +38,7 @@ public class Kommentarer extends javax.swing.JFrame {
     public void HämtaKommentarer() throws SQLException
     {
        
-        String sql = "Select Kommentar_ID,Text,Timestamp from `kommentarer` where `Post_ID`="+PostID+";";
+        String sql = "Select User_ID,Text,Timestamp from `kommentarer` where `Post_ID`="+PostID+" AND Typ='"+typ+"';";
         Connection con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
         PreparedStatement pst = con.prepareStatement(sql);
         rs = pst.executeQuery();
@@ -130,8 +134,13 @@ public class Kommentarer extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 int PostID = 0;
+                String typ="";
                
-                new Kommentarer(PostID).setVisible(true);
+                try {
+                    new Kommentarer(PostID,typ).setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Kommentarer.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
