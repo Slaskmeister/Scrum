@@ -1,3 +1,8 @@
+import java.awt.Image;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -5,7 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 
 /*
@@ -19,14 +27,44 @@ public class SkapaInlägg extends javax.swing.JFrame {
     PreparedStatement pst = null;
     ResultSet res = null;
     private String inloggadPerson;
+    private File file;
     
     public SkapaInlägg(String anvandare) {
         initComponents();
         inloggadPerson = anvandare;
         lblok.setVisible(false);
         lblfel.setVisible(false);
+        txtInlagg.setLineWrap(true);
         
+    }
+        public void läggTillBild() throws FileNotFoundException {
         
+          JFileChooser bilder = new JFileChooser();
+          bilder.setCurrentDirectory(new File(System.getProperty("user.home")));
+          //filter the files
+          FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Images", "jpg","gif","png");
+          bilder.addChoosableFileFilter(filter);
+          int result = bilder.showSaveDialog(null);
+          if(result == JFileChooser.APPROVE_OPTION){
+              File selectedFile = bilder.getSelectedFile();
+              String path = selectedFile.getAbsolutePath();
+              label.setIcon(ResizeImage(path));
+              file = bilder.getSelectedFile();
+          }
+
+          else if(result == JFileChooser.CANCEL_OPTION){
+              System.out.println("Ingen fil är vald");
+          }
+        }
+    
+       public ImageIcon ResizeImage(String ImagePath)
+    {
+        ImageIcon MyImage = new ImageIcon(ImagePath);
+        
+        Image img = MyImage.getImage();
+        Image newImg = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(newImg);
+        return image;
     }
 
     /**
@@ -38,21 +76,18 @@ public class SkapaInlägg extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtInlagg = new javax.swing.JTextField();
         btnPosta = new javax.swing.JButton();
         lblok = new javax.swing.JLabel();
         lblfel = new javax.swing.JLabel();
         btnTillbaka = new javax.swing.JButton();
+        label = new javax.swing.JLabel();
+        btnBild = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtInlagg = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        txtInlagg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtInlaggActionPerformed(evt);
-            }
-        });
-
-        btnPosta.setText("Posta");
+        btnPosta.setText("Skapa inlägg");
         btnPosta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPostaActionPerformed(evt);
@@ -72,70 +107,100 @@ public class SkapaInlägg extends javax.swing.JFrame {
             }
         });
 
+        btnBild.setText("Lägg till bild");
+        btnBild.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBildActionPerformed(evt);
+            }
+        });
+
+        txtInlagg.setColumns(20);
+        txtInlagg.setRows(5);
+        jScrollPane1.setViewportView(txtInlagg);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(txtInlagg, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 20, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblok, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblfel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblok, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblfel, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnPosta)
-                    .addComponent(btnTillbaka))
-                .addGap(23, 23, 23))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btnPosta)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnTillbaka)
+                                .addGap(23, 23, 23))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btnBild)
+                                .addGap(67, 67, 67))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(80, 80, 80)
-                .addComponent(txtInlagg, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnPosta)
-                    .addComponent(lblok))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBild))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 12, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblok)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblfel))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(16, 16, 16)
-                        .addComponent(btnTillbaka)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnTillbaka)
+                            .addComponent(btnPosta))))
+                .addGap(54, 54, 54))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtInlaggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInlaggActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtInlaggActionPerformed
-
     private void btnPostaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPostaActionPerformed
-        if (Validate.inteTomt(txtInlagg)){
+        if (Validate.inteTomtArea(txtInlagg)){
         
         String nyttInlagg = "";
         try{
+            InputStream bild= new FileInputStream(file);
             nyttInlagg = txtInlagg.getText();
-            String query = "INSERT INTO `post`(`Text`, `Användarnamn`) VALUES (?, ?)";
+            String query = "INSERT INTO `post`(`Text`, `Användarnamn`,`bild`) VALUES (?, ?, ?)";
             connec = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
             pst=connec.prepareStatement(query);
             pst.setString(1, txtInlagg.getText());
             pst.setString(2, inloggadPerson);
+            pst.setBinaryStream(3, (InputStream) bild, (int)(file.length()));
             pst.executeUpdate();
             lblok.setText("Inlägget har skapats ");
             lblok.setVisible(true);
             txtInlagg.setText("");
-            
-            
         }
     catch (Exception ex){
-            JOptionPane.showMessageDialog(null, "Error"); }
+            JOptionPane.showMessageDialog(null, "Error");
+            System.out.println(ex.getMessage());
+    }
     }
     else {
     lblfel.setText("Det gick inte att göra inlägg");
@@ -152,6 +217,14 @@ public class SkapaInlägg extends javax.swing.JFrame {
             Logger.getLogger(SkapaInlägg.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnTillbakaActionPerformed
+
+    private void btnBildActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBildActionPerformed
+        try {
+            läggTillBild();
+        } catch (FileNotFoundException ex) {
+            System.out.println(ex.getCause());
+        }
+    }//GEN-LAST:event_btnBildActionPerformed
     
     /**
      * @param args the command line arguments
@@ -191,10 +264,13 @@ public class SkapaInlägg extends javax.swing.JFrame {
     /*jj*/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBild;
     private javax.swing.JButton btnPosta;
     private javax.swing.JButton btnTillbaka;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel label;
     private javax.swing.JLabel lblfel;
     private javax.swing.JLabel lblok;
-    private javax.swing.JTextField txtInlagg;
+    private javax.swing.JTextArea txtInlagg;
     // End of variables declaration//GEN-END:variables
 }
