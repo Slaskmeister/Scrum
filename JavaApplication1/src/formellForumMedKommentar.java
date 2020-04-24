@@ -1,7 +1,6 @@
 
 
 
-import com.itextpdf.text.Document;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
+import javax.swing.text.Document;
 import net.proteanit.sql.DbUtils;
 
 /*
