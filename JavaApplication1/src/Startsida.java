@@ -441,6 +441,8 @@ public class Startsida extends javax.swing.JFrame {
     }//GEN-LAST:event_btnKalenderActionPerformed
 
     private void btnInformellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformellActionPerformed
+
+
         try {
             String anvandare = inloggadPerson;
             bloggForum forum = new bloggForum(anvandare);

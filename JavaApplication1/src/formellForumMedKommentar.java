@@ -330,7 +330,6 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
                    String anvandarnamn = inloggadPerson;
                    SkapaInläggFormell skapa = new SkapaInläggFormell(anvandarnamn);
                    skapa.setVisible(true);
-                   
                    formellForumMedKommentar.this.dispose();
     }//GEN-LAST:event_btnSkapaInläggActionPerformed
 

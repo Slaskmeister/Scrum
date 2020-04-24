@@ -205,6 +205,7 @@ public class SkapaInlägg extends javax.swing.JFrame {
     else {
     lblfel.setText("Det gick inte att göra inlägg");
     lblfel.setVisible(true);}
+    JavaMail.Skicka();
     }//GEN-LAST:event_btnPostaActionPerformed
 
     private void btnTillbakaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTillbakaActionPerformed
@@ -212,11 +213,12 @@ public class SkapaInlägg extends javax.swing.JFrame {
             String anvandare = inloggadPerson;
             bloggForum skapa = new bloggForum(anvandare);
             skapa.setVisible(true);
-            JavaMail.Skicka();
             SkapaInlägg.this.dispose();
+           
         } catch (SQLException ex) {
             Logger.getLogger(SkapaInlägg.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }//GEN-LAST:event_btnTillbakaActionPerformed
 
     private void btnBildActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBildActionPerformed

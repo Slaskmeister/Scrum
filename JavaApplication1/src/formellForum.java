@@ -254,7 +254,6 @@ public class formellForum extends javax.swing.JFrame {
                    String anvandarnamn = inloggadPerson;
                    SkapaInläggFormell skapa = new SkapaInläggFormell(anvandarnamn);
                    skapa.setVisible(true);
-                   JavaMail.Skicka();
                    formellForum.this.dispose();
     }//GEN-LAST:event_btnSkapaInläggActionPerformed
 

@@ -301,7 +301,6 @@ public class bloggForumMedKommentar extends javax.swing.JFrame {
     private void btnTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestActionPerformed
                    String anvandare = inloggadPerson;
                    SkapaInlägg skapa = new SkapaInlägg(anvandare);
-                   
                    skapa.setVisible(true);
                    bloggForumMedKommentar.this.dispose();
     }//GEN-LAST:event_btnTestActionPerformed

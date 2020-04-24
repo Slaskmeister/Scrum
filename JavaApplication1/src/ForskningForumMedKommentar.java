@@ -251,7 +251,7 @@ public class ForskningForumMedKommentar extends javax.swing.JFrame {
         SkapaInläggUtbildning skapa = new SkapaInläggUtbildning(anvandarnamn);
         skapa.setVisible(true);
         ForskningForumMedKommentar.this.dispose();
-        JavaMail.Skicka();
+        
     }//GEN-LAST:event_btnSkapaInläggActionPerformed
 
     private void btnStartsidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartsidaActionPerformed

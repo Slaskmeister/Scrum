@@ -97,7 +97,8 @@ public class SkapaInläggUtbildning extends javax.swing.JFrame {
     else {
     lblFel.setText("Det gick inte att göra inlägg");
     lblFel.setVisible(true);
-    }                                        
+    }    
+        JavaMail.Skicka();
     }
 
     /**
@@ -275,7 +276,7 @@ public class SkapaInläggUtbildning extends javax.swing.JFrame {
 
     private void btnPubliceraInläggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPubliceraInläggActionPerformed
         publiceraInlagg();
-        JavaMail.Skicka();
+        
     }//GEN-LAST:event_btnPubliceraInläggActionPerformed
 
     /**
