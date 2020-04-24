@@ -179,6 +179,11 @@ public class MinaSidor extends javax.swing.JFrame {
 
         btnMöte.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnMöte.setText("Mötesförfrågningar");
+        btnMöte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMöteActionPerformed(evt);
+            }
+        });
 
         btnStartsida.setText("Startsida");
         btnStartsida.addActionListener(new java.awt.event.ActionListener() {
@@ -282,6 +287,10 @@ public class MinaSidor extends javax.swing.JFrame {
             Logger.getLogger(MinaSidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnProfilbildActionPerformed
+
+    private void btnMöteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMöteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMöteActionPerformed
 
     /**
      * @param args the command line arguments
