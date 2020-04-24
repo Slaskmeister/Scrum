@@ -44,6 +44,11 @@ public class SeBesvaradeMötesförfrågningar extends javax.swing.JFrame {
            pstmt.setString(1, inloggadPerson);
            ResultSet rs = pstmt.executeQuery();
            tblMöten.setModel(DbUtils.resultSetToTableModel(rs));
+           tblMöten.getTableHeader();
+           tblMöten.getColumnModel().getColumn(0).setHeaderValue("Användarnamn");
+           tblMöten.getColumnModel().getColumn(1).setHeaderValue("Möte");
+           tblMöten.getColumnModel().getColumn(2).setHeaderValue("Mötes-ID");
+           tblMöten.getTableHeader().repaint();
            
        }
        
@@ -156,46 +161,50 @@ public class SeBesvaradeMötesförfrågningar extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnMinaSidor)
-                .addGap(23, 23, 23))
             .addGroup(layout.createSequentialGroup()
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(89, 89, 89)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(168, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(69, 69, 69)
-                        .addComponent(lblDinaMöten)
-                        .addGap(285, 285, 285)
-                        .addComponent(lblÖnskadeTider)))
-                .addContainerGap(70, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSkapaMöte)
-                .addGap(237, 237, 237))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(97, 97, 97)
+                                .addComponent(lblDinaMöten))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(99, 99, 99)
+                                .addComponent(btnMinaSidor)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnSkapaMöte)
+                                .addGap(236, 236, 236))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(224, 224, 224)
+                                .addComponent(lblÖnskadeTider)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblÖnskadeTider)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblDinaMöten)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSkapaMöte)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
-                .addComponent(btnMinaSidor)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSkapaMöte)
+                    .addComponent(btnMinaSidor))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         pack();
@@ -221,6 +230,10 @@ public class SeBesvaradeMötesförfrågningar extends javax.swing.JFrame {
         pst.setString(1, möteVärde);
         ResultSet rs = pst.executeQuery();
         tblTider.setModel(DbUtils.resultSetToTableModel(rs));
+        tblTider.getTableHeader();
+        tblTider.getColumnModel().getColumn(0).setHeaderValue("Mötes-ID");
+        tblTider.getColumnModel().getColumn(1).setHeaderValue("Önskad tid");
+        tblTider.getTableHeader().repaint();
         }
         catch(Exception e){
         System.out.println(e.getMessage());
