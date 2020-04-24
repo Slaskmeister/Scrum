@@ -31,6 +31,7 @@ public class Kommentarer extends javax.swing.JFrame {
         this.PostID = PostID;
         this.typ = typ;
         initComponents();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         HämtaKommentarer();
     }
     
