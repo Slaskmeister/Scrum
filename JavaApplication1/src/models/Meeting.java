@@ -15,24 +15,13 @@ import java.util.List;
  */
 public class Meeting {
     private String meetingName;
-    private LocalDateTime date;
-    private List<User> invitedUsers;
     
-    public Meeting(String meetingName, LocalDateTime date, List<User> invitedUsers) {
+    public Meeting(String meetingName) {
         this.meetingName = meetingName;
-        this.date = date;
-        this.invitedUsers = invitedUsers;
     }
     
     public String getMeetingName() {
         return meetingName;
     }
     
-    public LocalDateTime getMeetingDate() {
-        return date;
-    }
-    
-    public List<User> getInvitedUsers() {
-        return invitedUsers;
-    }
 }
