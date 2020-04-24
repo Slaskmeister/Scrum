@@ -355,7 +355,7 @@ public class Startsida extends javax.swing.JFrame {
 
     private void btnFormellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFormellActionPerformed
         String anvandare = inloggadPerson;
-        formellForum forum = new formellForum(anvandare);
+        formellForumMedKommentar forum = new formellForumMedKommentar(anvandare);
         forum.setVisible(true);
         Startsida.this.dispose(); 
     }//GEN-LAST:event_btnFormellActionPerformed
@@ -374,14 +374,14 @@ public class Startsida extends javax.swing.JFrame {
 
     private void btnUtbildningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUtbildningActionPerformed
         String anvandare = inloggadPerson;
-        UtbildningsForum forum = new UtbildningsForum(anvandare);
+        UtbildningsForumMedKommentar forum = new UtbildningsForumMedKommentar(anvandare);
         forum.setVisible(true);
         Startsida.this.dispose();
     }//GEN-LAST:event_btnUtbildningActionPerformed
 
     private void btnForskningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForskningActionPerformed
         String anvandare = inloggadPerson;
-        ForskningForum forum = new ForskningForum(anvandare);
+        ForskningForumMedKommentar forum = new ForskningForumMedKommentar(anvandare);
         forum.setVisible(true);
         Startsida.this.dispose(); 
 
@@ -394,7 +394,7 @@ public class Startsida extends javax.swing.JFrame {
     private void btnInformellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformellActionPerformed
         try {
             String anvandare = inloggadPerson;
-            bloggForum forum = new bloggForum(anvandare);
+            bloggForumMedKommentar forum = new bloggForumMedKommentar(anvandare);
             forum.setVisible(true); 
             Startsida.this.dispose();
         } catch (SQLException ex) {

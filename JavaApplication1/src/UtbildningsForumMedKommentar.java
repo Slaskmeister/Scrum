@@ -3,6 +3,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -97,6 +100,11 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
         lblVäljKategori.setText("Välj kategori");
 
         cbKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbKategori.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbKategoriActionPerformed(evt);
+            }
+        });
 
         btnVisaPost.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnVisaPost.setText("Visa alla inlägg");
@@ -162,6 +170,11 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
         });
 
         jtKommentera.setText("Kommentera");
+        jtKommentera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtKommenteraActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -261,7 +274,7 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
 
     private void btnVisaPostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisaPostActionPerformed
         try {
-            HamtaInlagg();
+           HamtaInlagg();
         } catch (Exception ex) {
             System.out.println("Det gick inte att visa inlägg" + ex.getMessage());
         }
@@ -311,6 +324,77 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
                 
         }
     }//GEN-LAST:event_btnKommentarerActionPerformed
+
+    private void jtKommenteraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtKommenteraActionPerformed
+         
+        
+        String nyKommentar = jtKommentar.getText().toString();
+        
+        if( jtKommentar.getText().isEmpty()||tblPoster.getSelectionModel().isSelectionEmpty())
+        {
+           
+        JOptionPane.showInternalMessageDialog(rootPane, "Välj en post");
+        
+        }else
+        {
+         try
+        {
+         
+         
+       
+         
+         String anvandare = inloggadPerson;
+         con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+         pst2 = con.prepareStatement("SELECT * FROM `user` WHERE `anamn`=?");
+         pst2.setString(1,anvandare);
+         rs =pst2.executeQuery();
+         
+         if (rs.next()){
+         int senderID = rs.getInt("id");
+
+       
+           
+        
+        
+         
+         
+         
+         
+         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+	 Date date = new Date();
+         String timestamp= dateFormat.format(date);
+         
+         
+         
+         
+         int i = tblPoster.getSelectedRow();    
+         TableModel model = tblPoster.getModel();
+         int PostID = Integer.parseInt(model.getValueAt(i,0).toString());
+         String SQLInsert = "INSERT INTO `kommentarer`(`Timestamp`, `Text`, `Post_ID`, `User_ID`, `Typ`) VALUES (?,?,?,?,?)";
+         pst2=con.prepareStatement(SQLInsert);
+         pst2.setString(1, timestamp);
+         pst2.setString(2, nyKommentar);
+         pst2.setInt(3, PostID);
+         pst2.setInt(4,senderID);
+         pst2.setString(5,typ);
+         pst2.executeUpdate();
+         JOptionPane.showInternalMessageDialog(rootPane, "Kommentaren är postad");
+         jtKommentar.setText("");
+         }
+        }   
+         catch (Exception ex){
+            JOptionPane.showMessageDialog(null, "Något gick fel, kontrollera uppkoppling till db");
+            }   
+            
+            
+        }
+            
+         
+    }//GEN-LAST:event_jtKommenteraActionPerformed
+
+    private void cbKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbKategoriActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbKategoriActionPerformed
      public void visaInlägg(){
          String inlägg;
        inlägg = tblPoster.getValueAt(tblPoster.getSelectedRow(), 1).toString();
@@ -321,7 +405,7 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
          try
      { 
        String valdKategori = cbKategori.getSelectedItem().toString();
-       String sql = "Select * from `Utbildning poster` where `kategori`=?";
+       String sql = "Select * from `utbildning post` where kategori_fk = ?;";
        con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
        pst2 = con.prepareStatement(sql);
        pst2.setString(1, valdKategori);
@@ -364,7 +448,7 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
     cbKategori.addItem("Välj");
     try{
     con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
-           String sql = "select namn from Utbildning kategori";
+           String sql = "SELECT namn FROM `utbildning kategori`;";
            PreparedStatement pst2 = con.prepareStatement(sql);
            ResultSet rs = pst2.executeQuery();
            while (rs.next()){

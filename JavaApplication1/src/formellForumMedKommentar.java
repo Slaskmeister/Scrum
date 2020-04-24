@@ -1,7 +1,6 @@
 
 
 
-import com.itextpdf.text.Document;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
+import javax.swing.text.Document;
 import net.proteanit.sql.DbUtils;
 
 /*
@@ -369,19 +369,24 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
         {
          try
         {
-         con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+         
          
        
          
-         String sqlUserid = "SELECT `id` FROM user WHERE anamn='?'";
+         String anvandare = inloggadPerson;
          con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
-         pst2 = con.prepareStatement(sqlUserid);
-         pst2.setString(1,inloggadPerson);
+         pst2 = con.prepareStatement("SELECT * FROM `user` WHERE `anamn`=?");
+         pst2.setString(1,anvandare);
          rs =pst2.executeQuery();
          
+         if (rs.next()){
+         int senderID = rs.getInt("id");
+
+       
+           
         
         
-         int senderID= rs.getInt(1);
+         
          
          
          
@@ -405,7 +410,7 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
          pst2.executeUpdate();
          JOptionPane.showInternalMessageDialog(rootPane, "Kommentaren är postad");
          jtKommentar.setText("");
-         
+         }
         }   
          catch (Exception ex){
             JOptionPane.showMessageDialog(null, "Något gick fel, kontrollera uppkoppling till db");
@@ -414,6 +419,7 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
             
         }
             
+         
             
         
     }//GEN-LAST:event_btnKommenteraActionPerformed

@@ -13,6 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Timer;
 import java.lang.String;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.table.TableModel;
@@ -173,7 +175,7 @@ public class bloggForumMedKommentar extends javax.swing.JFrame {
         tblInlägg = new javax.swing.JTable();
         btnTaBort = new javax.swing.JButton();
         btnLäsInlägg = new javax.swing.JButton();
-        jtKommentera = new javax.swing.JTextField();
+        jtKommentar = new javax.swing.JTextField();
         btnKommentera = new javax.swing.JButton();
         btnVisaKommentarer = new javax.swing.JButton();
 
@@ -231,6 +233,11 @@ public class bloggForumMedKommentar extends javax.swing.JFrame {
         });
 
         btnKommentera.setText("Kommentera");
+        btnKommentera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKommenteraActionPerformed(evt);
+            }
+        });
 
         btnVisaKommentarer.setText("Visa kommentarer");
         btnVisaKommentarer.addActionListener(new java.awt.event.ActionListener() {
@@ -258,7 +265,7 @@ public class bloggForumMedKommentar extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnTaBort)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jtKommentera, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtKommentar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnKommentera)
                 .addContainerGap())
@@ -268,12 +275,13 @@ public class bloggForumMedKommentar extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtKommentera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnKommentera, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnLäsInlägg)
-                        .addComponent(btnTaBort)))
+                        .addComponent(btnTaBort))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jtKommentar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnKommentera, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnTillbaka)
@@ -379,6 +387,72 @@ public class bloggForumMedKommentar extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnVisaKommentarerActionPerformed
 
+    private void btnKommenteraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKommenteraActionPerformed
+         
+        String nyKommentar = jtKommentar.getText().toString();
+        
+        if( jtKommentar.getText().isEmpty()||tblInlägg.getSelectionModel().isSelectionEmpty())
+        {
+           
+        JOptionPane.showInternalMessageDialog(rootPane, "Välj en post");
+        
+        }else
+        {
+         try
+        {
+         
+         
+       
+         
+         String anvandare = inloggadPerson;
+         con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+         pstmt = con.prepareStatement("SELECT * FROM `user` WHERE `anamn`=?");
+         pstmt.setString(1,anvandare);
+         rs =pstmt.executeQuery();
+         
+         if (rs.next()){
+         int senderID = rs.getInt("id");
+
+       
+           
+        
+        
+         
+         
+         
+         
+         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+	 java.util.Date date = new java.util.Date();
+         String timestamp= dateFormat.format(date);
+         
+         
+         
+         
+         int i = tblInlägg.getSelectedRow();    
+         TableModel model = tblInlägg.getModel();
+         int PostID = Integer.parseInt(model.getValueAt(i,0).toString());
+         String SQLInsert = "INSERT INTO `kommentarer`(`Timestamp`, `Text`, `Post_ID`, `User_ID`, `Typ`) VALUES (?,?,?,?,?)";
+         pstmt=con.prepareStatement(SQLInsert);
+         pstmt.setString(1, timestamp);
+         pstmt.setString(2, nyKommentar);
+         pstmt.setInt(3, PostID);
+         pstmt.setInt(4,senderID);
+         pstmt.setString(5,typ);
+         pstmt.executeUpdate();
+         JOptionPane.showInternalMessageDialog(rootPane, "Kommentaren är postad");
+         jtKommentar.setText("");
+         }
+        }   
+         catch (Exception ex){
+            JOptionPane.showMessageDialog(null, "Något gick fel, kontrollera uppkoppling till db");
+            }   
+            
+            
+        }
+            
+         
+    }//GEN-LAST:event_btnKommenteraActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -427,7 +501,7 @@ public class bloggForumMedKommentar extends javax.swing.JFrame {
     private javax.swing.JButton btnTillbaka;
     private javax.swing.JButton btnVisaKommentarer;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jtKommentera;
+    private javax.swing.JTextField jtKommentar;
     private javax.swing.JTable tblInlägg;
     // End of variables declaration//GEN-END:variables
 }   
