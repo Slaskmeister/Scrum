@@ -280,6 +280,7 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
     private void btnSkapaInläggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaInläggActionPerformed
         String anvandarnamn = inloggadPerson;
         SkapaInläggUtbildning skapa = new SkapaInläggUtbildning(anvandarnamn);
+         JavaMail.Skicka();
         skapa.setVisible(true);
         UtbildningsForumMedKommentar.this.dispose();
     }//GEN-LAST:event_btnSkapaInläggActionPerformed

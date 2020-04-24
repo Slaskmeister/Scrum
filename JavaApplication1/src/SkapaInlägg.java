@@ -212,6 +212,7 @@ public class SkapaInlägg extends javax.swing.JFrame {
             String anvandare = inloggadPerson;
             bloggForum skapa = new bloggForum(anvandare);
             skapa.setVisible(true);
+            JavaMail.Skicka();
             SkapaInlägg.this.dispose();
         } catch (SQLException ex) {
             Logger.getLogger(SkapaInlägg.class.getName()).log(Level.SEVERE, null, ex);

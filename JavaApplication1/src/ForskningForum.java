@@ -220,6 +220,7 @@ public class ForskningForum extends javax.swing.JFrame {
         String anvandarnamn = inloggadPerson;
         SkapaInläggForskning skapa = new SkapaInläggForskning(anvandarnamn);
         skapa.setVisible(true);
+        JavaMail.Skicka();
         ForskningForum.this.dispose();
     }//GEN-LAST:event_btnSkapaInläggActionPerformed
 
