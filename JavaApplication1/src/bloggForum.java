@@ -269,7 +269,7 @@ public class bloggForum extends javax.swing.JFrame {
     private void btnTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestActionPerformed
                    String anvandare = inloggadPerson;
                    SkapaInlägg skapa = new SkapaInlägg(anvandare);
-                    JavaMail.Skicka();
+                 
                    skapa.setVisible(true);
                    
 //            SkapaInlägg inlagg = new SkapaInlägg();
