@@ -26,6 +26,23 @@ public class UserRepository {
         }
     }
     
+    public Integer getUserIdForUsernamn(String anvandarnamn) {
+        try {
+            String query = "SELECT id FROM USER\n" +
+                            "WHERE ANAMN = '" + anvandarnamn + "'";
+            
+            PreparedStatement pst = con.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            
+            if(rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     public List<User> getUsers() {
         String query = "select * from user";
         List<User> users = new ArrayList();
