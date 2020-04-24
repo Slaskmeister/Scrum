@@ -213,6 +213,11 @@ public class Startsida extends javax.swing.JFrame {
 
         btnSkapaMöte.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnSkapaMöte.setText("Skapa nytt möte");
+        btnSkapaMöte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSkapaMöteActionPerformed(evt);
+            }
+        });
 
         btnKalender.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnKalender.setText("Se kalender");
@@ -300,7 +305,7 @@ public class Startsida extends javax.swing.JFrame {
                             .addComponent(btnUtbildning, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnSkapaMöte, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
                             .addComponent(btnKalender, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(94, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(72, 72, 72)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -406,6 +411,13 @@ public class Startsida extends javax.swing.JFrame {
     private void btnGeAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGeAdminActionPerformed
        nyAdmin();
     }//GEN-LAST:event_btnGeAdminActionPerformed
+
+    private void btnSkapaMöteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaMöteActionPerformed
+        String anvandarnamn = inloggadPerson;
+        SkapaMöte forum = new SkapaMöte(anvandarnamn);
+        forum.setVisible(true);
+        Startsida.this.dispose();
+    }//GEN-LAST:event_btnSkapaMöteActionPerformed
 
     /**
      * @param args the command line arguments
