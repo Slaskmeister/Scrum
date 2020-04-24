@@ -39,7 +39,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btnTaBort" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="jtKommentera" min="-2" pref="118" max="-2" attributes="0"/>
+              <Component id="jtKommentar" min="-2" pref="118" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btnKommentera" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -51,12 +51,14 @@
           <Group type="102" alignment="1" attributes="0">
               <Component id="jScrollPane1" min="-2" pref="307" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jtKommentera" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnKommentera" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                  <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="btnLäsInlägg" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnTaBort" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jtKommentar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnKommentera" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="69" max="32767" attributes="0"/>
@@ -136,12 +138,15 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnL&#xe4;sInl&#xe4;ggActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="jtKommentera">
+    <Component class="javax.swing.JTextField" name="jtKommentar">
     </Component>
     <Component class="javax.swing.JButton" name="btnKommentera">
       <Properties>
         <Property name="text" type="java.lang.String" value="Kommentera"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnKommenteraActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnVisaKommentarer">
       <Properties>
