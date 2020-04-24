@@ -42,7 +42,7 @@ public class SkapaMöte extends javax.swing.JFrame {
         meetingRepository = new MeetingRepository();
         usersToInvite = new ArrayList();
         fetchUsers();
-        setDefaultTimeInTimePicker();
+//        setDefaultTimeInTimePicker();
     }
     
     public void fetchUsers() {
@@ -50,10 +50,10 @@ public class SkapaMöte extends javax.swing.JFrame {
        addUsersToCombobox();
     }
     
-    public void setDefaultTimeInTimePicker() {
-        meetingTimePicker.datePicker.setDateToToday();
-        meetingTimePicker.timePicker.setTimeToNow();
-    }
+//    public void setDefaultTimeInTimePicker() {
+//        meetingTimePicker.datePicker.setDateToToday();
+//        meetingTimePicker.timePicker.setTimeToNow();
+//    }
     
     public void addUsersToCombobox() {
         usersCombobox.removeAllItems();
