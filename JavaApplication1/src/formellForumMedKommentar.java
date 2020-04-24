@@ -1,12 +1,18 @@
 
 
 
+import com.itextpdf.text.Document;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -34,6 +40,11 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
     private ResultSet rs;
     private Connection con;
     private boolean admin;
+    private FileOutputStream output;
+    private InputStream input;
+    private Document doc;
+    private Desktop dsk;
+    private String sparaFil;
     /**
      * Creates new form formellForum
      */
@@ -69,6 +80,38 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
         }
         fyllComboBox();
     }
+    public void öppnaPdf() {
+        byte[] fileBytes;
+        String query; 
+        String postID = tblPoster.getValueAt(tblPoster.getSelectedRow(), 4).toString();
+        try {
+            query = 
+             "select `fil` from `dokument` where `Fil_ID`= " + postID;
+             con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+            Statement state = con.createStatement();
+            ResultSet rs = state.executeQuery(query);
+            output = new FileOutputStream(new File("Dokument"));
+            File file = new File("Dokument");
+            
+        while (rs.next()) {
+
+            input = rs.getBinaryStream("fil"); 
+            int r = 0;
+
+            while ((r = input.read()) != -1) {
+                output.write(r);
+
+            }
+        }
+        
+        Desktop.getDesktop().open(file);
+       }
+        
+       catch(Exception e){
+       System.out.println(e.getMessage());
+       }
+     
+       }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -91,6 +134,8 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
         btnVisaKommentera = new javax.swing.JButton();
         btnKommentera = new javax.swing.JButton();
         jtKommentar = new javax.swing.JTextField();
+        btnVisaInlägg = new javax.swing.JButton();
+        bntÖppna = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -99,7 +144,6 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
 
         cbKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        btnVisaPost.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnVisaPost.setText("Visa poster");
         btnVisaPost.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -177,6 +221,20 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
 
         jtKommentar.setColumns(3);
 
+        btnVisaInlägg.setText("Läs inlägg");
+        btnVisaInlägg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVisaInläggActionPerformed(evt);
+            }
+        });
+
+        bntÖppna.setText("Öppna bifogad fil");
+        bntÖppna.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntÖppnaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -184,52 +242,59 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(btnSkapaInlägg)
-                        .addGap(67, 67, 67)
-                        .addComponent(btnLäggTillKategori)
-                        .addGap(74, 74, 74)
-                        .addComponent(btnStartsida))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblVäljKategori)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(btnVisaPost, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnVisaInlägg, javax.swing.GroupLayout.Alignment.TRAILING)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnTaBort)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnVisaKommentera)
-                                .addGap(57, 57, 57)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jtKommentar, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnKommentera)))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(53, 53, 53)
+                                .addComponent(jtKommentar, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnKommentera, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(bntÖppna)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnSkapaInlägg)
+                                .addGap(67, 67, 67)
+                                .addComponent(btnLäggTillKategori)))
+                        .addGap(74, 74, 74)
+                        .addComponent(btnStartsida)))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblVäljKategori)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnVisaPost))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE))
-                .addGap(42, 42, 42)
+                        .addGap(24, 24, 24)
+                        .addComponent(btnVisaPost)
+                        .addGap(24, 24, 24)
+                        .addComponent(btnVisaInlägg))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtKommentar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnTaBort)
-                    .addComponent(btnVisaKommentera))
+                    .addComponent(btnVisaKommentera)
+                    .addComponent(jtKommentar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnKommentera)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bntÖppna)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSkapaInlägg)
                     .addComponent(btnLäggTillKategori)
@@ -352,6 +417,20 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
             
         
     }//GEN-LAST:event_btnKommenteraActionPerformed
+
+    private void btnVisaInläggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisaInläggActionPerformed
+       
+       String inlägg;
+       inlägg = tblPoster.getValueAt(tblPoster.getSelectedRow(), 1).toString();
+
+       JOptionPane.showMessageDialog(null, inlägg, "Inlägg", JOptionPane.PLAIN_MESSAGE);
+       
+    
+    }//GEN-LAST:event_btnVisaInläggActionPerformed
+
+    private void bntÖppnaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntÖppnaActionPerformed
+       öppnaPdf();
+    }//GEN-LAST:event_bntÖppnaActionPerformed
      public void HamtaInlagg() throws SQLException{
      try
      { 
@@ -362,6 +441,10 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
        pst2.setString(1, valdKategori);
        rs =pst2.executeQuery();
        tblPoster.setModel(DbUtils.resultSetToTableModel(rs));
+        tblPoster.getTableHeader();
+        tblPoster.getColumnModel().getColumn(2).setHeaderValue("Kategori");
+        tblPoster.getColumnModel().getColumn(4).setHeaderValue("Dokument");
+        tblPoster.getTableHeader().repaint();
     }
             
         
@@ -425,11 +508,13 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bntÖppna;
     private javax.swing.JButton btnKommentera;
     private javax.swing.JButton btnLäggTillKategori;
     private javax.swing.JButton btnSkapaInlägg;
     private javax.swing.JButton btnStartsida;
     private javax.swing.JButton btnTaBort;
+    private javax.swing.JButton btnVisaInlägg;
     private javax.swing.JButton btnVisaKommentera;
     private javax.swing.JButton btnVisaPost;
     private javax.swing.JComboBox<String> cbKategori;
