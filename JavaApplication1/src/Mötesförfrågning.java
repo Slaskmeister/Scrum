@@ -3,6 +3,8 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import models.MötesFörslag;
 import models.User;
@@ -22,7 +24,7 @@ import repository.UserRepository;
 public class Mötesförfrågning extends javax.swing.JFrame {
     private UserRepository userRepository;
     private MeetingRepository meetingRepository;
-    private String inloggadAnvandare;
+    private String inloggadPerson;
     private Integer userId;
     
     private List<MötesFörslag> mötesFörslagFörAnvändare = new ArrayList();
@@ -33,7 +35,7 @@ public class Mötesförfrågning extends javax.swing.JFrame {
         initComponents();
         userRepository = new UserRepository();
         meetingRepository = new MeetingRepository();
-        inloggadAnvandare = anvandarnamn;
+        inloggadPerson = anvandarnamn;
         getUserId(anvandarnamn);
         hämtaMötesFörslag(userId);
         läggTillMötesFörslagTillCombobox();
@@ -82,7 +84,6 @@ public class Mötesförfrågning extends javax.swing.JFrame {
 
         MötesförfrågningLbl.setText("Mötesförfrågning");
         MötesförfrågningLbl.setAlignmentY(2.0F);
-        MötesförfrågningLbl.setSize(new java.awt.Dimension(50, 30));
 
         minaSidorBtn.setText("Mina sidor");
         minaSidorBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -122,30 +123,27 @@ public class Mötesförfrågning extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(53, 53, 53)
-                        .addComponent(MötesförfrågningLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(minaSidorBtn))
+                        .addComponent(MötesförfrågningLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(mötesCombobox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(tidFörslagsCombobox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(minaSidorBtn))
+                            .addComponent(mötesCombobox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tidFörslagsCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(MötesförfrågningLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(minaSidorBtn))
+                .addComponent(MötesförfrågningLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mötesCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -154,16 +152,25 @@ public class Mötesförfrågning extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tidFörslagsCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(19, 19, 19))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(minaSidorBtn))
+                .addGap(22, 22, 22))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void minaSidorBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minaSidorBtnActionPerformed
-          
+        try {
+            String anvandarnamn = inloggadPerson;
+            MinaSidor start = new MinaSidor(anvandarnamn);
+            start.setVisible(true);
+            Mötesförfrågning.this.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(Mötesförfrågning.class.getName()).log(Level.SEVERE, null, ex);
+        }
                 
               
     }//GEN-LAST:event_minaSidorBtnActionPerformed

@@ -150,6 +150,7 @@ public class MinaSidor extends javax.swing.JFrame {
         btnStartsida = new javax.swing.JButton();
         label = new javax.swing.JLabel();
         btnProfilbild = new javax.swing.JButton();
+        btnSeSvar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -178,7 +179,7 @@ public class MinaSidor extends javax.swing.JFrame {
         });
 
         btnMöte.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnMöte.setText("Mötesförfrågningar");
+        btnMöte.setText("Se mötesförfrågningar");
         btnMöte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMöteActionPerformed(evt);
@@ -203,6 +204,14 @@ public class MinaSidor extends javax.swing.JFrame {
             }
         });
 
+        btnSeSvar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnSeSvar.setText("Se svar på mötesförfrågningar");
+        btnSeSvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeSvarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -220,12 +229,14 @@ public class MinaSidor extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnMöte, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(lblÄndraLösen)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(lblNyttLösen, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(pwÄndraLösen, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(pwÄndraLösen, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(btnSeSvar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnMöte, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
                                 .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
@@ -238,21 +249,23 @@ public class MinaSidor extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnStartsida)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
+                        .addContainerGap()
+                        .addComponent(btnStartsida)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
                         .addComponent(btnMöte)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSeSvar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
                         .addComponent(lblÄndraLösen, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblNyttLösen)
-                            .addComponent(pwÄndraLösen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(pwÄndraLösen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnÄndraLösen)
@@ -289,8 +302,18 @@ public class MinaSidor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProfilbildActionPerformed
 
     private void btnMöteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMöteActionPerformed
-        // TODO add your handling code here:
+                   String anvandarnamn = inloggadPerson;
+                   Mötesförfrågning start = new Mötesförfrågning(anvandarnamn);
+                   start.setVisible(true);
+                   MinaSidor.this.dispose();
     }//GEN-LAST:event_btnMöteActionPerformed
+
+    private void btnSeSvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeSvarActionPerformed
+                   String anvandarnamn = inloggadPerson;
+                   SeBesvaradeMötesförfrågningar start = new SeBesvaradeMötesförfrågningar(anvandarnamn);
+                   start.setVisible(true);
+                   MinaSidor.this.dispose();
+    }//GEN-LAST:event_btnSeSvarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -335,6 +358,7 @@ public class MinaSidor extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMöte;
     private javax.swing.JButton btnProfilbild;
+    private javax.swing.JButton btnSeSvar;
     private javax.swing.JButton btnStartsida;
     private javax.swing.JButton btnÄndraLösen;
     private javax.swing.JLabel label;

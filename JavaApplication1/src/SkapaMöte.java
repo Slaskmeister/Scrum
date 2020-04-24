@@ -4,6 +4,7 @@ import java.sql.DriverManager;
 import java.util.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,15 +26,16 @@ public class SkapaMöte extends javax.swing.JFrame {
     private List<User> users;
     private UserRepository userRepository;
     private MeetingRepository meetingRepository;
-   
+    private String inloggadPerson;
     private List<User> usersToInvite;
    
     
     /**
      * Creates new form jennifer
      */
-    public SkapaMöte() {
+    public SkapaMöte(String anvandarnamn) {
         initComponents();
+        inloggadPerson = anvandarnamn;
         userRepository = new UserRepository();
         meetingRepository = new MeetingRepository();
         usersToInvite = new ArrayList();
@@ -91,6 +93,41 @@ public class SkapaMöte extends javax.swing.JFrame {
        return LocalDateTime.of(meetingDate, meetingTime);
 
    
+    }
+    
+     public void läggTillSkapare(){
+         try{
+            
+         
+            Connection con3 = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+            PreparedStatement pst3 = con3.prepareStatement("select max(ID) from `möte`");
+            ResultSet rs3 = pst3.executeQuery();
+            String möteID ="" ;
+         while(rs3.next())
+            {
+                möteID = rs3.getString(1);
+            }
+         
+         Connection con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+            PreparedStatement pst1 = con.prepareStatement("select `titel` from `möte` where `ID`=?");
+            pst1.setString(1, möteID);
+            ResultSet rs = pst1.executeQuery();
+            String möte ="" ;
+         while(rs.next())
+            {
+                möte = rs.getString(1);
+            } 
+         
+   
+        String sql2 = "INSERT INTO `user_skapat_möte`(`användarnamn`, `möte`, `möteID`) VALUES (?, ?, ?)";
+        Connection con2 = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+        PreparedStatement pst2 = con2.prepareStatement(sql2);
+            pst2.setString(1, inloggadPerson);
+            pst2.setString(2, möte);
+            pst2.setString(3, möteID);
+            pst2.executeUpdate();}
+         catch (Exception ex){
+            System.out.println(ex.getMessage()); }
     }
 
     /**
@@ -189,7 +226,7 @@ public class SkapaMöte extends javax.swing.JFrame {
 
         tidLbl3.setText("Tid 3");
 
-        skapaMötesFörfrågaBtn.setText("Skapa mötes förfråga");
+        skapaMötesFörfrågaBtn.setText("Skapa mötesförfrågan");
         skapaMötesFörfrågaBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 skapaMötesFörfrågaBtnActionPerformed(evt);
@@ -225,9 +262,6 @@ public class SkapaMöte extends javax.swing.JFrame {
                                         .addGap(24, 24, 24)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addGap(41, 41, 41)
-                                                .addComponent(jLabel5))
-                                            .addGroup(layout.createSequentialGroup()
                                                 .addGap(276, 276, 276)
                                                 .addComponent(jLabel2)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -248,45 +282,52 @@ public class SkapaMöte extends javax.swing.JFrame {
                                                             .addGap(18, 18, 18)
                                                             .addComponent(inviteUserBtn)))
                                                     .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(skapaMötesFörfrågaBtn)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(skapaMöteBtn))))
-                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                        .addGap(30, 30, 30)
+                                                        .addComponent(skapaMötesFörfrågaBtn))))
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(41, 41, 41)
+                                                .addComponent(jLabel5)
+                                                .addGap(323, 323, 323)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addComponent(jLabel6)
+                                                        .addGap(18, 18, 18)
+                                                        .addComponent(skapaMöteBtn)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                    .addComponent(meetingTimePicker, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE))
+                                                .addGap(89, 89, 89))))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
                                         .addComponent(tidFörslag2, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(389, Short.MAX_VALUE))
+                                .addGap(80, 80, 80))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(tidFörslag1, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(60, 60, 60)
                                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(meetingTimePicker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(207, 207, 207))))))))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(skapaMöteBtn))
+                        .addGap(1, 1, 1)
+                        .addComponent(meetingTimePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(meetingTitleTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6)
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(meetingTimePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel7))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(48, 48, 48)
                         .addComponent(jLabel4)
@@ -302,7 +343,7 @@ public class SkapaMöte extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tidFörslag3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tidLbl3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(usersCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -312,9 +353,7 @@ public class SkapaMöte extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(skapaMötesFörfrågaBtn)
-                    .addComponent(skapaMöteBtn))
+                .addComponent(skapaMötesFörfrågaBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(removeUsersBtn)
                 .addGap(44, 44, 44))
@@ -410,6 +449,7 @@ public class SkapaMöte extends javax.swing.JFrame {
         
         meetingRepository.skapaMötesFörslag(mötesFörslag);
         meetingRepository.bjudInAnvändareTillMöte(usersToInvite, mötesId);
+        läggTillSkapare();
         
         JOptionPane.showMessageDialog(null, "Mötesförslag har skapats");  
 
@@ -444,7 +484,8 @@ public class SkapaMöte extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new SkapaMöte().setVisible(true);
+            String anvandarnamn = "";
+            new SkapaMöte(anvandarnamn).setVisible(true);
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
