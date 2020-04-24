@@ -92,7 +92,6 @@ public class ForskningForumMedKommentar extends javax.swing.JFrame {
 
         cbKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        btnVisaPost.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnVisaPost.setText("Visa alla inlägg");
         btnVisaPost.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,30 +183,27 @@ public class ForskningForumMedKommentar extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnSkapaInlägg, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblVäljKategori)
-                    .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnVisaPost, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnVisaKommentarer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jtKommentar)
-                    .addComponent(btnKommentera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblVäljKategori)
+                            .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnVisaPost, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnVisaKommentarer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jtKommentar)
+                            .addComponent(btnKommentera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnVisaInlägg)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnTaBort)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addGap(113, 113, 113))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnTaBort))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(244, 244, 244)
-                        .addComponent(btnStartsida)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(btnSkapaInlägg)
+                        .addGap(29, 29, 29)
+                        .addComponent(btnStartsida)))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,16 +218,17 @@ public class ForskningForumMedKommentar extends javax.swing.JFrame {
                         .addComponent(btnVisaPost)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnVisaKommentarer)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jtKommentar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnKommentera))
+                        .addComponent(btnKommentera)
+                        .addGap(0, 31, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTaBort)
-                    .addComponent(btnVisaInlägg))
-                .addGap(35, 35, 35)
+                    .addComponent(btnVisaInlägg)
+                    .addComponent(btnTaBort))
+                .addGap(67, 67, 67)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSkapaInlägg)
                     .addComponent(btnStartsida))
@@ -257,10 +254,14 @@ public class ForskningForumMedKommentar extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSkapaInläggActionPerformed
 
     private void btnStartsidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartsidaActionPerformed
-        String anvandarnamn = inloggadPerson;
-        Startsida start = new Startsida(anvandarnamn);
-        start.setVisible(true);
-        ForskningForumMedKommentar.this.dispose();
+        try {
+            String anvandarnamn = inloggadPerson;
+            Startsida start = new Startsida(anvandarnamn);
+            start.setVisible(true);
+            ForskningForumMedKommentar.this.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(ForskningForumMedKommentar.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnStartsidaActionPerformed
 
     private void tblPosterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPosterMouseClicked
@@ -389,9 +390,9 @@ public class ForskningForumMedKommentar extends javax.swing.JFrame {
          
     }//GEN-LAST:event_btnKommenteraActionPerformed
      public void visaInlägg(){
-         String inlägg;
+       String inlägg;
        inlägg = tblPoster.getValueAt(tblPoster.getSelectedRow(), 1).toString();
-       JOptionPane.showMessageDialog(null, inlägg);
+       JOptionPane.showMessageDialog(null, inlägg, "Inlägg", JOptionPane.PLAIN_MESSAGE);
      }
      
      public void HamtaInlagg() throws SQLException{
@@ -404,6 +405,11 @@ public class ForskningForumMedKommentar extends javax.swing.JFrame {
        pst2.setString(1, valdKategori);
        rs =pst2.executeQuery();
        tblPoster.setModel(DbUtils.resultSetToTableModel(rs));
+        tblPoster.getTableHeader();
+        tblPoster.getColumnModel().getColumn(2).setHeaderValue("Användarnamn");
+        tblPoster.getColumnModel().getColumn(4).setHeaderValue("Kategori");
+        tblPoster.getColumnModel().getColumn(3).setHeaderValue("Dokument");
+        tblPoster.getTableHeader().repaint();
     }
             
         
@@ -470,13 +476,13 @@ public class ForskningForumMedKommentar extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ForskningForum.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ForskningForumMedKommentar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ForskningForum.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ForskningForumMedKommentar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ForskningForum.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ForskningForumMedKommentar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ForskningForum.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ForskningForumMedKommentar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

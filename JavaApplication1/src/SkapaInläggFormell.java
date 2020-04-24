@@ -258,7 +258,7 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
 
     private void btnTillbakaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTillbakaActionPerformed
      String anvandare = inloggadPerson;
-     formellForum forum = new formellForum(anvandare);
+     formellForumMedKommentar forum = new formellForumMedKommentar(anvandare);
      forum.setVisible(true);
      SkapaInläggFormell.this.dispose(); 
     }//GEN-LAST:event_btnTillbakaActionPerformed

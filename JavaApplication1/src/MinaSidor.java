@@ -287,10 +287,14 @@ public class MinaSidor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnÄndraLösenActionPerformed
 
     private void btnStartsidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartsidaActionPerformed
-                   String anvandarnamn = inloggadPerson;
-                   Startsida start = new Startsida(anvandarnamn);
-                   start.setVisible(true);
-                   MinaSidor.this.dispose();
+        try {
+            String anvandarnamn = inloggadPerson;
+            Startsida start = new Startsida(anvandarnamn);
+            start.setVisible(true);
+            MinaSidor.this.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(MinaSidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnStartsidaActionPerformed
 
     private void btnProfilbildActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfilbildActionPerformed

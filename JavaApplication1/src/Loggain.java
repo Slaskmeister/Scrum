@@ -144,17 +144,21 @@ public class Loggain extends javax.swing.JFrame {
     private void btnLoggaInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoggaInActionPerformed
     
         if(Validate.inteTomt(txtAnvandarnamn) && Validate.inteTomt(pwLosenord)){
-           String anvandarnamn = txtAnvandarnamn.getText();
-           String losenord = pwLosenord.getText();
-           
-           Startsida person = new Startsida(anvandarnamn);
-     
             try {
-                if(person.inLoggning(anvandarnamn, losenord)){
-                    person.setVisible(true);
-                } else {
-                    lblFelmeddelande.setVisible(true);
-                    System.out.println("Fel användarnamn eller lösenord. ");
+                String anvandarnamn = txtAnvandarnamn.getText();
+                String losenord = pwLosenord.getText();
+                
+                Startsida person = new Startsida(anvandarnamn);
+                
+                try {
+                    if(person.inLoggning(anvandarnamn, losenord)){
+                        person.setVisible(true);
+                    } else {
+                        lblFelmeddelande.setVisible(true);
+                        System.out.println("Fel användarnamn eller lösenord. ");
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(Loggain.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Loggain.class.getName()).log(Level.SEVERE, null, ex);

@@ -142,7 +142,6 @@ public class bloggForumMedKommentar extends javax.swing.JFrame {
             image=Toolkit.getDefaultToolkit().createImage(imageBytes);
             Image nyBild = image.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
             ImageIcon icon = new ImageIcon(nyBild);
-//            label.setIcon(icon);
                         JOptionPane.showMessageDialog(
                         null,
                         new JLabel(inlägg, icon, JLabel.LEFT),
@@ -154,12 +153,7 @@ public class bloggForumMedKommentar extends javax.swing.JFrame {
        catch (Exception e) {
             System.out.println("Intern felmeddelande" + e.getMessage());
         }
-       
-       }
-       
-       
-        
-            
+       }   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -301,10 +295,6 @@ public class bloggForumMedKommentar extends javax.swing.JFrame {
                    String anvandare = inloggadPerson;
                    SkapaInlägg skapa = new SkapaInlägg(anvandare);
                    skapa.setVisible(true);
-                   
-//            SkapaInlägg inlagg = new SkapaInlägg();
-//            inlagg.setVisible(true);
-//            this.dispose();
     }//GEN-LAST:event_btnTestActionPerformed
 
     private void tblInläggMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInläggMouseClicked
@@ -314,11 +304,6 @@ public class bloggForumMedKommentar extends javax.swing.JFrame {
         int rad = tblInlägg.getSelectedRow();                                   //Visar markrad rad i tabellen
         värde = tblInlägg.getModel().getValueAt(rad, kolumn).toString();
         värde2 = tblInlägg.getModel().getValueAt(rad, 2).toString();
-
-//        värde=null;
-//        int kolumn = 0;
-//        int rad = tblInlägg.getSelectedRow();                                   //Visar markrad rad i tabellen
-//        värde = tblInlägg.getModel().getValueAt(rad, kolumn).toString();        //Sätter värdet av raden till en variabel
     }//GEN-LAST:event_tblInläggMouseClicked
 
     private void btnTaBortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortActionPerformed
@@ -344,18 +329,6 @@ public class bloggForumMedKommentar extends javax.swing.JFrame {
         else {
              JOptionPane.showMessageDialog(null, "Du är inte behörig att ta bort detta inlägg");
         }
-//        KollaVärde();
-//        if(harVärde = true){
-//                TaBortVärde();
-//            try {
-//                HamtaInlagg();
-//            } catch (SQLException ex) {
-//                Logger.getLogger(bloggForum.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//                } 
-//        if(harVärde == false){
-//            
-//        }
     }//GEN-LAST:event_btnTaBortActionPerformed
 
     private void btnLäsInläggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLäsInläggActionPerformed
@@ -398,12 +371,7 @@ public class bloggForumMedKommentar extends javax.swing.JFrame {
         
         }else
         {
-         try
-        {
-         
-         
-       
-         
+         try {
          String anvandare = inloggadPerson;
          con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
          pstmt = con.prepareStatement("SELECT * FROM `user` WHERE `anamn`=?");
@@ -412,21 +380,10 @@ public class bloggForumMedKommentar extends javax.swing.JFrame {
          
          if (rs.next()){
          int senderID = rs.getInt("id");
-
-       
-           
-        
-        
-         
-         
-         
          
          DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 	 java.util.Date date = new java.util.Date();
          String timestamp= dateFormat.format(date);
-         
-         
-         
          
          int i = tblInlägg.getSelectedRow();    
          TableModel model = tblInlägg.getModel();

@@ -269,7 +269,7 @@ public class SkapaInläggForskning extends javax.swing.JFrame {
 
     private void btnTillbakaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTillbakaActionPerformed
         String anvandarnamn = inloggadPerson;
-        ForskningForum forum = new ForskningForum(anvandarnamn);
+        ForskningForumMedKommentar forum = new ForskningForumMedKommentar(anvandarnamn);
         forum.setVisible(true);
         SkapaInläggForskning.this.dispose();
     }//GEN-LAST:event_btnTillbakaActionPerformed

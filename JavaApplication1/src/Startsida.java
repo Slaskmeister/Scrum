@@ -27,10 +27,19 @@ public class Startsida extends javax.swing.JFrame {
     private PreparedStatement pst;
     private PreparedStatement pst2;
     private ResultSet rs;
+    private String id;
+    private PreparedStatement pstm;
+    private ResultSet rs1;
+    private String person;
+    private PreparedStatement pstmt;
+    private ResultSet rs2;
+    private PreparedStatement ps;
+    private ResultSet rs3;
+    private String möte;
     /**
      * Creates new form Startsida
      */
-    public Startsida(String anvandarnamn) {
+    public Startsida(String anvandarnamn) throws SQLException {
         initComponents();
         inloggadPerson = anvandarnamn;
         lblValkommen.setText("Välkommen" + " " + inloggadPerson);
@@ -60,6 +69,7 @@ public class Startsida extends javax.swing.JFrame {
           fyllComboBox();
           pnlAdmin.setVisible(false);
           lblBekräftelse.setVisible(false);
+          notis();
     }
 
 
@@ -139,9 +149,45 @@ public class Startsida extends javax.swing.JFrame {
      visaKnappar();
      lblBekräftelse.setText(admin + " " + "har nu adminstatus");
      lblBekräftelse.setVisible(true);
-     
-    
     }
+    
+
+    public void notis() throws SQLException{
+    String sql = "SELECT `user_fk` from `user_möte`";
+    con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+    pst=con.prepareStatement(sql);
+    rs = pst.executeQuery(); 
+    while(rs.next()){
+    id = rs.getString("user_fk");
+    String sql1 = "SELECT `id` from `user` where `anamn`=?";
+    con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+    pstm= con.prepareStatement(sql1);
+    pstm.setString(1, inloggadPerson);
+    rs1 = pstm.executeQuery();
+    if(rs1.next()){
+    person = rs1.getString("id");
+    }}
+    if(id.equals(person)){
+    String sql2 = "Select `möte_fk` from `user_möte` where `user_fk`=?";
+    pstmt = con.prepareStatement(sql2);
+    pstmt.setString(1, (String) id);
+    rs2 = pstmt.executeQuery();
+    while(rs2.next()){
+    möte = rs2.getString("möte_fk");
+    String sql3 = "Select `datum` from `möte` where `ID`=?";
+    ps = con.prepareStatement(sql3);
+    ps.setString(1, möte);
+    rs3 = ps.executeQuery();
+     while(rs3.next()){
+         if(rs3.getString("datum") != null){
+         String datum = rs3.getString("datum");
+        JOptionPane.showMessageDialog(null, "Du har ett möte inbokat:" + datum, "Inbokade möten", JOptionPane.PLAIN_MESSAGE);
+         }}}}
+    else {
+     System.out.println("Du har inga inbokade möten!");
+     JOptionPane.showMessageDialog(null, "Du har inga möten inbokade", "Inbokade möten", JOptionPane.PLAIN_MESSAGE);
+    }}
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -384,17 +430,16 @@ public class Startsida extends javax.swing.JFrame {
         ForskningForumMedKommentar forum = new ForskningForumMedKommentar(anvandare);
         forum.setVisible(true);
         Startsida.this.dispose(); 
-
     }//GEN-LAST:event_btnForskningActionPerformed
 
     private void btnKalenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKalenderActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_btnKalenderActionPerformed
 
     private void btnInformellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformellActionPerformed
         try {
             String anvandare = inloggadPerson;
-            bloggForumMedKommentar forum = new bloggForumMedKommentar(anvandare);
+            bloggForum forum = new bloggForum(anvandare);
             forum.setVisible(true); 
             Startsida.this.dispose();
         } catch (SQLException ex) {
@@ -413,10 +458,10 @@ public class Startsida extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGeAdminActionPerformed
 
     private void btnSkapaMöteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaMöteActionPerformed
-        String anvandarnamn = inloggadPerson;
-        SkapaMöte forum = new SkapaMöte(anvandarnamn);
-        forum.setVisible(true);
-        Startsida.this.dispose();
+//        String anvandarnamn = inloggadPerson;
+//        SkapaMöte forum = new SkapaMöte(anvandarnamn);
+//        forum.setVisible(true);
+//        Startsida.this.dispose();
     }//GEN-LAST:event_btnSkapaMöteActionPerformed
 
     /**
@@ -450,7 +495,11 @@ public class Startsida extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 String anvandarnamn = "";
-                new Startsida(anvandarnamn).setVisible(true);
+                try {
+                    new Startsida(anvandarnamn).setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Startsida.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

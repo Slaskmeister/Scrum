@@ -106,7 +106,6 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
             }
         });
 
-        btnVisaPost.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnVisaPost.setText("Visa alla inlägg");
         btnVisaPost.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,20 +191,18 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
                     .addComponent(jtKommentera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(244, 244, 244)
+                        .addComponent(btnStartsida)
+                        .addGap(0, 318, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnVisaInlägg)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnTaBort)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addGap(113, 113, 113))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(244, 244, 244)
-                        .addComponent(btnStartsida)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                .addComponent(btnTaBort)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,7 +230,7 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
                             .addComponent(btnVisaInlägg))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSkapaInlägg)
                             .addComponent(btnStartsida))
@@ -288,10 +285,14 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSkapaInläggActionPerformed
 
     private void btnStartsidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartsidaActionPerformed
-        String anvandarnamn = inloggadPerson;
-        Startsida start = new Startsida(anvandarnamn);
-        start.setVisible(true);
-        UtbildningsForumMedKommentar.this.dispose();
+        try {
+            String anvandarnamn = inloggadPerson;
+            Startsida start = new Startsida(anvandarnamn);
+            start.setVisible(true);
+            UtbildningsForumMedKommentar.this.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(UtbildningsForumMedKommentar.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnStartsidaActionPerformed
 
     private void tblPosterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPosterMouseClicked
@@ -398,7 +399,7 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
      public void visaInlägg(){
          String inlägg;
        inlägg = tblPoster.getValueAt(tblPoster.getSelectedRow(), 1).toString();
-       JOptionPane.showMessageDialog(null, inlägg);
+       JOptionPane.showMessageDialog(null, inlägg, "Inlägg", JOptionPane.PLAIN_MESSAGE);
      }
      
      public void HamtaInlagg() throws SQLException{
@@ -411,6 +412,11 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
        pst2.setString(1, valdKategori);
        rs =pst2.executeQuery();
        tblPoster.setModel(DbUtils.resultSetToTableModel(rs));
+        tblPoster.getTableHeader();
+        tblPoster.getColumnModel().getColumn(2).setHeaderValue("Användarnamn");
+        tblPoster.getColumnModel().getColumn(4).setHeaderValue("Kategori");
+        tblPoster.getColumnModel().getColumn(3).setHeaderValue("Dokument");
+        tblPoster.getTableHeader().repaint();
     }
             
         
@@ -479,13 +485,13 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UtbildningsForum.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UtbildningsForumMedKommentar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UtbildningsForum.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UtbildningsForumMedKommentar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UtbildningsForum.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UtbildningsForumMedKommentar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UtbildningsForum.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UtbildningsForumMedKommentar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

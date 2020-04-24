@@ -251,7 +251,7 @@ public class SkapaInläggUtbildning extends javax.swing.JFrame {
 
     private void btnTillbakaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTillbakaActionPerformed
         String anvandare = inloggadPerson;
-        formellForum forum = new formellForum(anvandare);
+        UtbildningsForumMedKommentar forum = new UtbildningsForumMedKommentar(anvandare);
         forum.setVisible(true);
         SkapaInläggUtbildning.this.dispose();
     }//GEN-LAST:event_btnTillbakaActionPerformed
