@@ -117,6 +117,7 @@ public class Startsida extends javax.swing.JFrame {
       btnAdmin.setVisible(false);
       btnKalender.setVisible(false);
       lblValkommen.setVisible(false);
+      btnMöte.setVisible(false);
   }
   
   public void visaKnappar(){
@@ -129,6 +130,7 @@ public class Startsida extends javax.swing.JFrame {
       btnAdmin.setVisible(true);
       btnKalender.setVisible(true);  
      lblValkommen.setVisible(true);
+     btnMöte.setVisible(true);
   }
 
     public void nyAdmin(){
@@ -197,11 +199,6 @@ public class Startsida extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnlAdmin = new javax.swing.JPanel();
-        cbPerson = new javax.swing.JComboBox<>();
-        lblAdmin = new javax.swing.JLabel();
-        lblVälj = new javax.swing.JLabel();
-        btnGeAdmin = new javax.swing.JButton();
         lblValkommen = new javax.swing.JLabel();
         btnInformell = new javax.swing.JButton();
         btnFormell = new javax.swing.JButton();
@@ -213,52 +210,11 @@ public class Startsida extends javax.swing.JFrame {
         btnAdmin = new javax.swing.JButton();
         lblBekräftelse = new javax.swing.JLabel();
         btnMöte = new javax.swing.JButton();
-
-        cbPerson.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        lblAdmin.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblAdmin.setText("Lägg till ny admin");
-
-        lblVälj.setText("Välj användare:");
-
-        btnGeAdmin.setText("Ge adminstatus");
-        btnGeAdmin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGeAdminActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pnlAdminLayout = new javax.swing.GroupLayout(pnlAdmin);
-        pnlAdmin.setLayout(pnlAdminLayout);
-        pnlAdminLayout.setHorizontalGroup(
-            pnlAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAdminLayout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(pnlAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblAdmin)
-                    .addGroup(pnlAdminLayout.createSequentialGroup()
-                        .addComponent(lblVälj, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(cbPerson, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(321, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAdminLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnGeAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
-        );
-        pnlAdminLayout.setVerticalGroup(
-            pnlAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAdminLayout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(lblAdmin)
-                .addGap(71, 71, 71)
-                .addGroup(pnlAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblVälj)
-                    .addComponent(cbPerson, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
-                .addComponent(btnGeAdmin)
-                .addGap(48, 48, 48))
-        );
+        pnlAdmin = new javax.swing.JPanel();
+        cbPerson = new javax.swing.JComboBox<>();
+        lblAdmin = new javax.swing.JLabel();
+        lblVälj = new javax.swing.JLabel();
+        btnGeAdmin = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -337,6 +293,52 @@ public class Startsida extends javax.swing.JFrame {
             }
         });
 
+        cbPerson.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lblAdmin.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblAdmin.setText("Lägg till ny admin");
+
+        lblVälj.setText("Välj användare:");
+
+        btnGeAdmin.setText("Ge adminstatus");
+        btnGeAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGeAdminActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlAdminLayout = new javax.swing.GroupLayout(pnlAdmin);
+        pnlAdmin.setLayout(pnlAdminLayout);
+        pnlAdminLayout.setHorizontalGroup(
+            pnlAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAdminLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addGroup(pnlAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblAdmin)
+                    .addGroup(pnlAdminLayout.createSequentialGroup()
+                        .addComponent(lblVälj, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbPerson, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(321, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAdminLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnGeAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41))
+        );
+        pnlAdminLayout.setVerticalGroup(
+            pnlAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAdminLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(lblAdmin)
+                .addGap(71, 71, 71)
+                .addGroup(pnlAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblVälj)
+                    .addComponent(cbPerson, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
+                .addComponent(btnGeAdmin)
+                .addGap(48, 48, 48))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -368,6 +370,11 @@ public class Startsida extends javax.swing.JFrame {
                         .addComponent(btnFormell, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnInformell, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)))
                 .addContainerGap(328, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(pnlAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -395,6 +402,11 @@ public class Startsida extends javax.swing.JFrame {
                     .addComponent(lblBekräftelse)
                     .addComponent(btnAdmin))
                 .addContainerGap(41, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(pnlAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();
