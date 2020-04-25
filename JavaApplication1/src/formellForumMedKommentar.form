@@ -169,7 +169,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="tblPoster">
+        <Component class="javax.swing.JTable" name="tblFormell">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="0"/>
@@ -192,6 +192,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblFormellMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -202,6 +205,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Ta bort inl&#xe4;gg"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTaBortActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnVisaKommentera">
       <Properties>
