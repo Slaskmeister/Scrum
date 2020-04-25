@@ -211,7 +211,7 @@ public class SkapaInlägg extends javax.swing.JFrame {
     private void btnTillbakaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTillbakaActionPerformed
         try {
             String anvandare = inloggadPerson;
-            bloggForum skapa = new bloggForum(anvandare);
+            bloggForumMedKommentar skapa = new bloggForumMedKommentar(anvandare);
             skapa.setVisible(true);
             SkapaInlägg.this.dispose();
            

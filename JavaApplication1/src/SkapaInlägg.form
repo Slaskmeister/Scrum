@@ -35,7 +35,7 @@
                           <Component id="lblok" min="-2" pref="188" max="-2" attributes="0"/>
                           <Component id="lblfel" min="-2" pref="136" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="20" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
