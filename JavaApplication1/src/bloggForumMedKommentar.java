@@ -375,7 +375,7 @@ public class bloggForumMedKommentar extends javax.swing.JFrame {
         if( jtKommentar.getText().isEmpty()||tblInlägg.getSelectionModel().isSelectionEmpty())
         {
            
-        JOptionPane.showInternalMessageDialog(rootPane, "Välj en post");
+        JOptionPane.showMessageDialog(null, "Välj en post","Felmeddelande",JOptionPane.PLAIN_MESSAGE);
         
         }else
         {
@@ -404,7 +404,7 @@ public class bloggForumMedKommentar extends javax.swing.JFrame {
          pstmt.setInt(4,senderID);
          pstmt.setString(5,typ);
          pstmt.executeUpdate();
-         JOptionPane.showInternalMessageDialog(rootPane, "Kommentaren är postad");
+         JOptionPane.showMessageDialog(null, "Kommentaren är postad","",JOptionPane.PLAIN_MESSAGE);
          jtKommentar.setText("");
          }
         }   
