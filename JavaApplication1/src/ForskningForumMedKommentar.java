@@ -332,7 +332,7 @@ public class ForskningForumMedKommentar extends javax.swing.JFrame {
         if( jtKommentar.getText().isEmpty()||tblPoster.getSelectionModel().isSelectionEmpty())
         {
            
-        JOptionPane.showInternalMessageDialog(rootPane, "Välj en post");
+       JOptionPane.showMessageDialog(null, "Välj en post","Felmeddelande",JOptionPane.PLAIN_MESSAGE);
         
         }else
         {
@@ -377,7 +377,7 @@ public class ForskningForumMedKommentar extends javax.swing.JFrame {
          pst2.setInt(4,senderID);
          pst2.setString(5,typ);
          pst2.executeUpdate();
-         JOptionPane.showInternalMessageDialog(rootPane, "Kommentaren är postad");
+         JOptionPane.showMessageDialog(null, "Kommentaren är postad","",JOptionPane.PLAIN_MESSAGE);
          jtKommentar.setText("");
          }
         }   
