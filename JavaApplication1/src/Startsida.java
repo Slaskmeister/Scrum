@@ -445,7 +445,7 @@ public class Startsida extends javax.swing.JFrame {
 
         try {
             String anvandare = inloggadPerson;
-            bloggForum forum = new bloggForum(anvandare);
+            bloggForumMedKommentar forum = new bloggForumMedKommentar(anvandare);
             forum.setVisible(true); 
             Startsida.this.dispose();
         } catch (SQLException ex) {
