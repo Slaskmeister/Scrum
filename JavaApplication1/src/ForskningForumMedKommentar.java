@@ -421,7 +421,7 @@ public class ForskningForumMedKommentar extends javax.swing.JFrame {
      private void TaBortVärde(){
             try
      {          
-       String sqlr = "Delete from `Forskning poster` where `ID`="+värde;
+       String sqlr = "Delete from `forskning post` where `ID`="+värde;
        con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
        pst2 = con.prepareStatement(sqlr);
        pst2.executeUpdate(sqlr);

@@ -36,7 +36,7 @@ public class Sebbe extends javax.swing.JFrame {
         try
         {
            con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
-           String sql = "select kategori from kategorier";
+           String sql = "select namn from kategorier";
            PreparedStatement pstmt = con.prepareStatement(sql);
            ResultSet rs = pstmt.executeQuery();
            t1.setModel(DbUtils.resultSetToTableModel(rs));
@@ -186,7 +186,7 @@ public class Sebbe extends javax.swing.JFrame {
         String nyKategori = "";
         try{
             nyKategori = txtKategorinamn.getText();
-            String query = "INSERT INTO `kategorier`(`kategori`) VALUES (?)";
+            String query = "INSERT INTO `kategorier`(`namn`) VALUES (?)";
             con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
             pstmt=con.prepareStatement(query);
             pstmt.setString(1, txtKategorinamn.getText());

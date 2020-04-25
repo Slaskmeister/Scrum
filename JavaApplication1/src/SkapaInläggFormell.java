@@ -37,6 +37,7 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
         inloggadPerson = anvandarnamn;
         lblOk.setVisible(false);
         lblFel.setVisible(false);
+        lblfilOk.setVisible(false);
         fyllComboBox();
         txtaInlägg.setLineWrap(true);
     }
@@ -72,7 +73,8 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
           PreparedStatement ps = con.prepareStatement("INSERT INTO `dokument`(fil,Fil_namn) values (?,'"+filnamn+"');");
           ps.setBinaryStream(1, fin, len);
           int status = ps.executeUpdate();
-          JOptionPane.showInternalMessageDialog(rootPane, "Dokumentet har lagts till");
+          lblfilOk.setText("Filen har bifogats");
+          lblfilOk.setVisible(true);
           txtFilnamn.setText("");
           
          PreparedStatement pst1 = con.prepareStatement("select max(Fil_ID) from `dokument`");
@@ -130,6 +132,7 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
         lblBifoga = new javax.swing.JLabel();
         txtFilnamn = new javax.swing.JTextField();
         lblFilnamn = new javax.swing.JLabel();
+        lblfilOk = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -177,6 +180,9 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
 
         lblFilnamn.setText("Nytt filnamn");
 
+        lblfilOk.setForeground(new java.awt.Color(0, 204, 0));
+        lblfilOk.setText("ok");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -215,10 +221,12 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(lblOk)
-                                .addComponent(lblFel, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addComponent(lblKategori))))
+                            .addComponent(lblFel)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblKategori)
+                                .addGap(278, 278, 278)
+                                .addComponent(lblfilOk))
+                            .addComponent(lblOk))))
                 .addContainerGap(434, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -240,16 +248,18 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblKategori)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblKategori)
+                    .addComponent(lblfilOk))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPublicera)
                     .addComponent(btnTillbaka))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(36, 36, 36)
                 .addComponent(lblOk)
-                .addGap(6, 6, 6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblFel)
                 .addGap(19, 19, 19))
         );
@@ -335,6 +345,7 @@ public class SkapaInläggFormell extends javax.swing.JFrame {
     private javax.swing.JLabel lblKategori;
     private javax.swing.JLabel lblOk;
     private javax.swing.JLabel lblSkrivInlägg;
+    private javax.swing.JLabel lblfilOk;
     private javax.swing.JTextField txtFilnamn;
     private javax.swing.JTextArea txtaInlägg;
     // End of variables declaration//GEN-END:variables

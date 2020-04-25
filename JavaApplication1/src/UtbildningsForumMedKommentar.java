@@ -73,7 +73,7 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
         btnSkapaInlägg = new javax.swing.JButton();
         btnStartsida = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblPoster = new javax.swing.JTable();
+        tblUtbildning = new javax.swing.JTable();
         btnKommentarer = new javax.swing.JButton();
         jtKommentar = new javax.swing.JTextField();
         jtKommentera = new javax.swing.JButton();
@@ -129,8 +129,8 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
             }
         });
 
-        tblPoster.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        tblPoster.setModel(new javax.swing.table.DefaultTableModel(
+        tblUtbildning.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tblUtbildning.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -153,13 +153,12 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblPoster.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tblPoster.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblUtbildning.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblPosterMouseClicked(evt);
+                tblUtbildningMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblPoster);
+        jScrollPane1.setViewportView(tblUtbildning);
 
         btnKommentarer.setText("Visa Kommentarer");
         btnKommentarer.addActionListener(new java.awt.event.ActionListener() {
@@ -295,26 +294,26 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnStartsidaActionPerformed
 
-    private void tblPosterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPosterMouseClicked
+    private void tblUtbildningMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUtbildningMouseClicked
         värde=null;
         värde2=null;
         int kolumn = 0;
         
-        int rad = tblPoster.getSelectedRow();                                   //Visar markrad rad i tabellen
-        värde = tblPoster.getModel().getValueAt(rad, kolumn).toString();
-        värde2 = tblPoster.getModel().getValueAt(rad, 2).toString();
-    }//GEN-LAST:event_tblPosterMouseClicked
+        int rad = tblUtbildning.getSelectedRow();                                   //Visar markrad rad i tabellen
+        värde = tblUtbildning.getModel().getValueAt(rad, kolumn).toString();
+        värde2 = tblUtbildning.getModel().getValueAt(rad, 2).toString();
+    }//GEN-LAST:event_tblUtbildningMouseClicked
 
     private void btnKommentarerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKommentarerActionPerformed
-        if(tblPoster.getSelectionModel().isSelectionEmpty()){
+        if(tblUtbildning.getSelectionModel().isSelectionEmpty()){
         
         JOptionPane.showInternalMessageDialog(rootPane, "Välj en post");
         }
         
         else{
          try {   
-        int i = tblPoster.getSelectedRow();    
-        TableModel model = tblPoster.getModel();
+        int i = tblUtbildning.getSelectedRow();    
+        TableModel model = tblUtbildning.getModel();
         int PostID = Integer.parseInt(model.getValueAt(i,0).toString());
             
         new Kommentarer(PostID,typ).setVisible(true);
@@ -331,7 +330,7 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
         
         String nyKommentar = jtKommentar.getText().toString();
         
-        if( jtKommentar.getText().isEmpty()||tblPoster.getSelectionModel().isSelectionEmpty())
+        if( jtKommentar.getText().isEmpty()||tblUtbildning.getSelectionModel().isSelectionEmpty())
         {
            
        JOptionPane.showMessageDialog(null, "Välj en post","Felmeddelande",JOptionPane.PLAIN_MESSAGE);
@@ -368,8 +367,8 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
          
          
          
-         int i = tblPoster.getSelectedRow();    
-         TableModel model = tblPoster.getModel();
+         int i = tblUtbildning.getSelectedRow();    
+         TableModel model = tblUtbildning.getModel();
          int PostID = Integer.parseInt(model.getValueAt(i,0).toString());
          String SQLInsert = "INSERT INTO `kommentarer`(`Timestamp`, `Text`, `Post_ID`, `User_ID`, `Typ`) VALUES (?,?,?,?,?)";
          pst2=con.prepareStatement(SQLInsert);
@@ -398,7 +397,7 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
     }//GEN-LAST:event_cbKategoriActionPerformed
      public void visaInlägg(){
          String inlägg;
-       inlägg = tblPoster.getValueAt(tblPoster.getSelectedRow(), 1).toString();
+       inlägg = tblUtbildning.getValueAt(tblUtbildning.getSelectedRow(), 1).toString();
        JOptionPane.showMessageDialog(null, inlägg, "Inlägg", JOptionPane.PLAIN_MESSAGE);
      }
      
@@ -411,12 +410,12 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
        pst2 = con.prepareStatement(sql);
        pst2.setString(1, valdKategori);
        rs =pst2.executeQuery();
-       tblPoster.setModel(DbUtils.resultSetToTableModel(rs));
-        tblPoster.getTableHeader();
-        tblPoster.getColumnModel().getColumn(2).setHeaderValue("Användarnamn");
-        tblPoster.getColumnModel().getColumn(4).setHeaderValue("Kategori");
-        tblPoster.getColumnModel().getColumn(3).setHeaderValue("Dokument");
-        tblPoster.getTableHeader().repaint();
+       tblUtbildning.setModel(DbUtils.resultSetToTableModel(rs));
+        tblUtbildning.getTableHeader();
+        tblUtbildning.getColumnModel().getColumn(2).setHeaderValue("Användarnamn");
+        tblUtbildning.getColumnModel().getColumn(4).setHeaderValue("Kategori");
+        tblUtbildning.getColumnModel().getColumn(3).setHeaderValue("Dokument");
+        tblUtbildning.getTableHeader().repaint();
     }
             
         
@@ -427,7 +426,7 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
      private void TaBortVärde(){
             try
      {          
-       String sqlr = "Delete from `utbildnig poster` where `ID`="+värde;
+       String sqlr = "Delete from `utbildning post` where `ID`="+värde;
        con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
        pst2 = con.prepareStatement(sqlr);
        pst2.executeUpdate(sqlr);
@@ -516,6 +515,6 @@ public class UtbildningsForumMedKommentar extends javax.swing.JFrame {
     private javax.swing.JTextField jtKommentar;
     private javax.swing.JButton jtKommentera;
     private javax.swing.JLabel lblVäljKategori;
-    private javax.swing.JTable tblPoster;
+    private javax.swing.JTable tblUtbildning;
     // End of variables declaration//GEN-END:variables
 }

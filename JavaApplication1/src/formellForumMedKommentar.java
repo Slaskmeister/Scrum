@@ -45,6 +45,9 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
     private Document doc;
     private Desktop dsk;
     private String sparaFil;
+    private String värde;
+    private boolean harVärde;
+    private String värdeID;
     /**
      * Creates new form formellForum
      */
@@ -83,7 +86,7 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
     public void öppnaPdf() {
         byte[] fileBytes;
         String query; 
-        String postID = tblPoster.getValueAt(tblPoster.getSelectedRow(), 4).toString();
+        String postID = tblFormell.getValueAt(tblFormell.getSelectedRow(), 4).toString();
         try {
             query = 
              "select `fil` from `dokument` where `Fil_ID`= " + postID;
@@ -129,7 +132,7 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
         btnSkapaInlägg = new javax.swing.JButton();
         btnStartsida = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblPoster = new javax.swing.JTable();
+        tblFormell = new javax.swing.JTable();
         btnTaBort = new javax.swing.JButton();
         btnVisaKommentera = new javax.swing.JButton();
         btnKommentera = new javax.swing.JButton();
@@ -175,8 +178,8 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
             }
         });
 
-        tblPoster.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        tblPoster.setModel(new javax.swing.table.DefaultTableModel(
+        tblFormell.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tblFormell.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -199,11 +202,21 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblPoster);
-        tblPoster.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        tblFormell.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblFormellMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblFormell);
+        tblFormell.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         btnTaBort.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
         btnTaBort.setText("Ta bort inlägg");
+        btnTaBort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTaBortActionPerformed(evt);
+            }
+        });
 
         btnVisaKommentera.setText("Visa Kommentarer");
         btnVisaKommentera.addActionListener(new java.awt.event.ActionListener() {
@@ -335,15 +348,15 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
 
     private void btnVisaKommenteraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisaKommenteraActionPerformed
        
-        if(tblPoster.getSelectionModel().isSelectionEmpty()){
+        if(tblFormell.getSelectionModel().isSelectionEmpty()){
         
         JOptionPane.showInternalMessageDialog(rootPane, "Välj en post");
         }
         
         else{
          try {   
-        int i = tblPoster.getSelectedRow();    
-        TableModel model = tblPoster.getModel();
+        int i = tblFormell.getSelectedRow();    
+        TableModel model = tblFormell.getModel();
         int PostID = Integer.parseInt(model.getValueAt(i,0).toString());
         
           
@@ -360,7 +373,7 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
         
         String nyKommentar = jtKommentar.getText().toString();
         
-        if( jtKommentar.getText().isEmpty()||tblPoster.getSelectionModel().isSelectionEmpty())
+        if( jtKommentar.getText().isEmpty()||tblFormell.getSelectionModel().isSelectionEmpty())
         {
            
         JOptionPane.showMessageDialog(null, "Välj en post","Felmeddelande",JOptionPane.PLAIN_MESSAGE);
@@ -381,8 +394,8 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
 	 Date date = new Date();
          String timestamp= dateFormat.format(date);
          
-         int i = tblPoster.getSelectedRow();    
-         TableModel model = tblPoster.getModel();
+         int i = tblFormell.getSelectedRow();    
+         TableModel model = tblFormell.getModel();
          int PostID = Integer.parseInt(model.getValueAt(i,0).toString());
          String SQLInsert = "INSERT INTO `kommentarer`(`Timestamp`, `Text`, `Post_ID`, `User_ID`, `Typ`) VALUES (?,?,?,?,?)";
          pst2=con.prepareStatement(SQLInsert);
@@ -407,7 +420,7 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
     private void btnVisaInläggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisaInläggActionPerformed
        
        String inlägg;
-       inlägg = tblPoster.getValueAt(tblPoster.getSelectedRow(), 1).toString();
+       inlägg = tblFormell.getValueAt(tblFormell.getSelectedRow(), 1).toString();
 
        JOptionPane.showMessageDialog(null, inlägg, "Inlägg", JOptionPane.PLAIN_MESSAGE);
        
@@ -417,7 +430,69 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
     private void bntÖppnaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntÖppnaActionPerformed
        öppnaPdf();
     }//GEN-LAST:event_bntÖppnaActionPerformed
-     public void HamtaInlagg() throws SQLException{
+
+    private void btnTaBortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortActionPerformed
+        if (admin == true){
+
+            KollaVärde();
+            if(harVärde = true){
+                TaBortVärde();
+                try {
+                    HamtaInlagg();
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+            } }
+            else if(värdeID.equals(inloggadPerson)){
+                TaBortVärde();
+                try {
+                    HamtaInlagg();
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Du är inte behörig att ta bort detta inlägg");
+            }
+    }//GEN-LAST:event_btnTaBortActionPerformed
+
+    private void tblFormellMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFormellMouseClicked
+        värde=null;
+        värdeID=null;
+        int kolumn = 0;
+       
+        int rad = tblFormell.getSelectedRow();                                   //Visar markrad rad i tabellen
+        värde = tblFormell.getModel().getValueAt(rad, kolumn).toString();
+        värdeID = tblFormell.getModel().getValueAt(rad, 3).toString();
+    }//GEN-LAST:event_tblFormellMouseClicked
+     
+    private void TaBortVärde(){
+            try
+     {          
+       String sqlr = "Delete from `formella poster` where `ID`="+värde;
+       con = DriverManager.getConnection("jdbc:mysql://mysqlse.fragnet.net:3306/111653_clientdb", "111653" ,"81374364");
+       pst2 = con.prepareStatement(sqlr);
+       pst2.executeUpdate(sqlr);
+     }
+            catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+            }
+    }
+     
+
+        public boolean KollaVärde(){
+        harVärde = false;
+        if (värde==null){
+        harVärde=false;
+        }
+                else{
+                harVärde=true;
+                }
+        return harVärde;
+        }
+    
+    
+    public void HamtaInlagg() throws SQLException{
      try
      { 
        String valdKategori = cbKategori.getSelectedItem().toString();
@@ -426,11 +501,11 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
        pst2 = con.prepareStatement(sql);
        pst2.setString(1, valdKategori);
        rs =pst2.executeQuery();
-       tblPoster.setModel(DbUtils.resultSetToTableModel(rs));
-        tblPoster.getTableHeader();
-        tblPoster.getColumnModel().getColumn(2).setHeaderValue("Kategori");
-        tblPoster.getColumnModel().getColumn(4).setHeaderValue("Dokument");
-        tblPoster.getTableHeader().repaint();
+       tblFormell.setModel(DbUtils.resultSetToTableModel(rs));
+        tblFormell.getTableHeader();
+        tblFormell.getColumnModel().getColumn(2).setHeaderValue("Kategori");
+        tblFormell.getColumnModel().getColumn(4).setHeaderValue("Dokument");
+        tblFormell.getTableHeader().repaint();
     }
             
         
@@ -507,6 +582,6 @@ public class formellForumMedKommentar extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jtKommentar;
     private javax.swing.JLabel lblVäljKategori;
-    private javax.swing.JTable tblPoster;
+    private javax.swing.JTable tblFormell;
     // End of variables declaration//GEN-END:variables
 }

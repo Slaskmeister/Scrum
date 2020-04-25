@@ -27,8 +27,9 @@ public class SkapaInläggForskning extends javax.swing.JFrame {
     public SkapaInläggForskning(String anvandarnamn) {
         initComponents();
         inloggadPerson = anvandarnamn;
-        lblOk.setVisible(false);
+        lblfilOk.setVisible(false);
         lblFel.setVisible(false);
+        lblOk1.setVisible(false);
         fyllComboBox();
         txtaInläggForskning.setLineWrap(true);
     }
@@ -62,7 +63,8 @@ public class SkapaInläggForskning extends javax.swing.JFrame {
           PreparedStatement ps = con.prepareStatement("INSERT INTO `dokument`(fil,Fil_namn) values (?,'"+filnamn+"');");
           ps.setBinaryStream(1, fin, len);
           int status = ps.executeUpdate();
-          JOptionPane.showInternalMessageDialog(rootPane, "Dokumentet har lagts till");
+          lblfilOk.setText("Filen är bifogad");
+          lblfilOk.setVisible(true);
           txtFilnamn.setText("");
           
          PreparedStatement pst1 = con.prepareStatement("select max(Fil_ID) from `dokument`");
@@ -83,8 +85,8 @@ public class SkapaInläggForskning extends javax.swing.JFrame {
             pst.setString(3, dokID);
             pst.setString(4, valdKategori);
             pst.executeUpdate();
-            lblOk.setText("Inlägget har publicerats ");
-            lblOk.setVisible(true);}
+            lblOk1.setText("Inlägget har publicerats ");
+            lblOk1.setVisible(true);}
             
             
         
@@ -113,13 +115,14 @@ public class SkapaInläggForskning extends javax.swing.JFrame {
         lblFel = new javax.swing.JLabel();
         lblKategori = new javax.swing.JLabel();
         btnTillbaka = new javax.swing.JButton();
-        lblOk = new javax.swing.JLabel();
+        lblfilOk = new javax.swing.JLabel();
         lblBifoga = new javax.swing.JLabel();
         lblSkrivInlägg = new javax.swing.JLabel();
         txtFilnamn = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtaInläggForskning = new javax.swing.JTextArea();
         lblFilnamn = new javax.swing.JLabel();
+        lblOk1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -152,8 +155,8 @@ public class SkapaInläggForskning extends javax.swing.JFrame {
             }
         });
 
-        lblOk.setForeground(new java.awt.Color(0, 204, 0));
-        lblOk.setText("ok");
+        lblfilOk.setForeground(new java.awt.Color(0, 204, 0));
+        lblfilOk.setText("ok");
 
         lblBifoga.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblBifoga.setText("Bifoga fil");
@@ -166,6 +169,9 @@ public class SkapaInläggForskning extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txtaInläggForskning);
 
         lblFilnamn.setText("Nytt filnamn");
+
+        lblOk1.setForeground(new java.awt.Color(0, 204, 0));
+        lblOk1.setText("ok");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -206,9 +212,12 @@ public class SkapaInläggForskning extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(lblOk)
-                                .addComponent(lblFel, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addComponent(lblKategori))))
+                                .addComponent(lblFel, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblOk1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblKategori)
+                                .addGap(284, 284, 284)
+                                .addComponent(lblfilOk)))))
                 .addContainerGap(424, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -222,7 +231,7 @@ public class SkapaInläggForskning extends javax.swing.JFrame {
                         .addComponent(lblBifoga)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblFilnamn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                         .addComponent(txtFilnamn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBifogaFil, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -230,15 +239,17 @@ public class SkapaInläggForskning extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblKategori)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblKategori)
+                    .addComponent(lblfilOk))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPubliceraInlägg)
                     .addComponent(btnTillbaka))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblOk)
+                .addGap(36, 36, 36)
+                .addComponent(lblOk1)
                 .addGap(6, 6, 6)
                 .addComponent(lblFel)
                 .addGap(19, 19, 19))
@@ -326,8 +337,9 @@ public class SkapaInläggForskning extends javax.swing.JFrame {
     private javax.swing.JLabel lblFel;
     private javax.swing.JLabel lblFilnamn;
     private javax.swing.JLabel lblKategori;
-    private javax.swing.JLabel lblOk;
+    private javax.swing.JLabel lblOk1;
     private javax.swing.JLabel lblSkrivInlägg;
+    private javax.swing.JLabel lblfilOk;
     private javax.swing.JTextField txtFilnamn;
     private javax.swing.JTextArea txtaInläggForskning;
     // End of variables declaration//GEN-END:variables
