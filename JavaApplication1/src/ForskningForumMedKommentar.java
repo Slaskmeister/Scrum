@@ -248,7 +248,7 @@ public class ForskningForumMedKommentar extends javax.swing.JFrame {
 
     private void btnSkapaInläggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaInläggActionPerformed
         String anvandarnamn = inloggadPerson;
-        SkapaInläggUtbildning skapa = new SkapaInläggUtbildning(anvandarnamn);
+        SkapaInläggForskning skapa = new SkapaInläggForskning(anvandarnamn);
         skapa.setVisible(true);
         ForskningForumMedKommentar.this.dispose();
         
