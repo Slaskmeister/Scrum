@@ -21,6 +21,7 @@ public class Sebbe extends javax.swing.JFrame {
     Connection con = null;  
     PreparedStatement pstmt = null;
     ResultSet rs = null;
+    private String inloggadPerson;
 
     /**
      * Creates new form Sebbe
@@ -28,7 +29,8 @@ public class Sebbe extends javax.swing.JFrame {
     public Sebbe(String anvandarnamn) {
         initComponents();
         döljMeddelande();
-        DisplayTable();  
+        DisplayTable();
+        inloggadPerson=anvandarnamn;
     }
     
     private void DisplayTable(){
@@ -67,6 +69,7 @@ public class Sebbe extends javax.swing.JFrame {
         lblFel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         t1 = new javax.swing.JTable();
+        btnTillbaka = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -156,6 +159,13 @@ public class Sebbe extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(t1);
 
+        btnTillbaka.setText("Tillbaka");
+        btnTillbaka.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTillbakaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -164,7 +174,9 @@ public class Sebbe extends javax.swing.JFrame {
                 .addGap(52, 52, 52)
                 .addComponent(pnlSkapaKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnTillbaka)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -174,7 +186,9 @@ public class Sebbe extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
                     .addComponent(pnlSkapaKategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(168, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                .addComponent(btnTillbaka)
+                .addGap(55, 55, 55))
         );
 
         pack();
@@ -208,6 +222,13 @@ public class Sebbe extends javax.swing.JFrame {
     private void txtKategorinamnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKategorinamnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtKategorinamnActionPerformed
+
+    private void btnTillbakaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTillbakaActionPerformed
+                   String anvandarnamn = inloggadPerson;
+                   formellForumMedKommentar start = new formellForumMedKommentar(anvandarnamn);
+                   start.setVisible(true);
+                   Sebbe.this.dispose();
+    }//GEN-LAST:event_btnTillbakaActionPerformed
     
     public void döljMeddelande(){
     lblBekraftelse.setVisible(false);
@@ -251,6 +272,7 @@ public class Sebbe extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLaggTillKategori;
+    private javax.swing.JButton btnTillbaka;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblBekraftelse;
     private javax.swing.JLabel lblFel;
