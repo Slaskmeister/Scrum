@@ -350,7 +350,7 @@ public class bloggForumMedKommentar extends javax.swing.JFrame {
     private void btnVisaKommentarerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisaKommentarerActionPerformed
         if(tblInlägg.getSelectionModel().isSelectionEmpty()){
         
-        JOptionPane.showInternalMessageDialog(rootPane, "Välj en post");
+        JOptionPane.showMessageDialog(null, "Välj en post");
         }
         
         else{
